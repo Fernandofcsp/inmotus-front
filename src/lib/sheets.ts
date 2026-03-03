@@ -1,4 +1,4 @@
-import { createSign } from "crypto";
+import { createSign } from "node:crypto";
 
 const SHEET_ID = "1JYHtqZ0LKYN3MxOyOIMMQPYUWzJx7ONnkCpDZjp7f1U";
 
