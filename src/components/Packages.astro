@@ -1,0 +1,257 @@
+---
+import fetchApi from "../lib/strapi";
+
+interface Service {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  duration_minutes: number;
+  image?: any;
+  showInWebsite?: boolean;
+}
+
+let packages: Service[] = [];
+let error = null;
+
+try {
+  packages = await fetchApi<Service[]>({
+    endpoint: "services",
+    wrappedByKey: "data",
+  });
+} catch (e) {
+  error = e;
+  console.error("Error fetching services from Strapi:", e);
+}
+
+interface ClinicInfo {
+  whatsapp?: string;
+}
+
+let clinicInfo: ClinicInfo | null = null;
+
+try {
+  clinicInfo = await fetchApi<ClinicInfo>({
+    endpoint: "clinic-info",
+    wrappedByKey: "data",
+  });
+} catch (e) {
+  console.error("Error fetching clinic info in Packages:", e);
+}
+
+const whatsappNumber = clinicInfo?.whatsapp || "523318391094";
+
+// Fallback data if API is empty/down
+if (!packages || packages.length === 0) {
+  console.log("No data from Strapi in Packages component");
+}
+---
+
+<section id="servicios" class="relative py-24 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-slate-900">
+        Servicios de <span
+          class="bg-gradient-to-r from-blue-950 to-blue-900 bg-clip-text text-transparent"
+          >Fisioterapia</span
+        >
+      </h2>
+      <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+        Tratamientos personalizados para tu recuperación integral
+      </p>
+    </div>
+
+    {
+      error && (
+        <div class="text-center p-4 mb-8 bg-red-900/20 border border-red-500/50 rounded-xl text-red-200">
+          <p>
+            Error cargando servicios. Verifica que el backend esté corriendo.
+          </p>
+        </div>
+      )
+    }
+
+    <div class="relative group/carousel">
+      <!-- Botones de navegación (solo en pantallas md o mayores) -->
+      <button
+        id="prev-btn"
+        aria-label="Anterior"
+        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-6 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-blue-900 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-10 disabled:opacity-0 disabled:cursor-not-allowed hidden md:flex border border-slate-100 hover:bg-slate-50"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          ><path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"></path></svg
+        >
+      </button>
+
+      <button
+        id="next-btn"
+        aria-label="Siguiente"
+        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-6 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-blue-900 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-10 disabled:opacity-0 disabled:cursor-not-allowed hidden md:flex border border-slate-100 hover:bg-slate-50"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          ><path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"></path></svg
+        >
+      </button>
+
+      <!-- Carrusel -->
+      <div
+        id="services-carousel"
+        class="flex overflow-x-auto snap-x snap-mandatory gap-6 lg:gap-8 pb-8 hide-scrollbar scroll-smooth"
+      >
+        {
+          packages
+            .filter((pkg) => pkg.showInWebsite !== false)
+            .map((pkg) => (
+              <div class="shrink-0 w-[85%] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1.333rem)] snap-start group relative flex items-stretch">
+                {/* Card */}
+                <div class="relative w-full h-full bg-white backdrop-blur-sm border border-slate-200 rounded-2xl p-8 transition-all duration-300 hover:border-blue-900/50 shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-900/10 flex flex-col">
+                  {/* Icon */}
+                  <div class="w-14 h-14 mb-6 rounded-xl bg-gradient-to-br from-blue-900/10 to-slate-800/10 border border-blue-900/20 flex items-center justify-center shrink-0">
+                    <svg
+                      class="w-7 h-7 text-blue-900"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </div>
+
+                  {/* Title */}
+                  <h3 class="text-2xl font-bold mb-2 text-slate-900">
+                    {pkg.title}
+                  </h3>
+
+                  {/* Price */}
+                  <div class="mb-6">
+                    <span class="text-4xl font-bold bg-gradient-to-r from-blue-950 to-blue-900 bg-clip-text text-transparent">
+                      ${pkg.price}
+                    </span>
+                    <span class="text-slate-500 ml-2">MXN</span>
+                  </div>
+
+                  {/* CTA Button */}
+                  <a
+                    href={`/citas?service=${encodeURIComponent(pkg.title)}`}
+                    class="block text-center w-full py-3.5 px-6 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 hover:border-blue-900 text-slate-800 font-semibold transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-900/25 mt-auto"
+                  >
+                    Agendar ahora
+                  </a>
+                </div>
+              </div>
+            ))
+        }
+      </div>
+    </div>
+
+    {/* Empty State */}
+    {
+      !error && packages.length === 0 && (
+        <div class="text-center py-12 text-slate-500">
+          <p>No hay servicios disponibles en este momento.</p>
+        </div>
+      )
+    }
+
+    {/* Contact CTA */}
+    <div class="mt-16 text-center">
+      <p class="text-slate-600 mb-4">¿Dudas sobre qué tratamiento necesitas?</p>
+      <a
+        href={`https://wa.me/${whatsappNumber}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-blue-900 hover:text-blue-800 font-semibold transition-colors"
+      >
+        Escríbenos por WhatsApp
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Script del carrusel -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const carousel = document.getElementById("services-carousel");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+
+    if (carousel && prevBtn && nextBtn) {
+      const scrollAmount = () => (carousel as HTMLElement).clientWidth * 0.8;
+
+      nextBtn.addEventListener("click", () => {
+        carousel.scrollBy({ left: scrollAmount(), behavior: "smooth" });
+      });
+
+      prevBtn.addEventListener("click", () => {
+        carousel.scrollBy({ left: -scrollAmount(), behavior: "smooth" });
+      });
+
+      const updateButtons = () => {
+        if (!carousel || !prevBtn || !nextBtn) return;
+
+        if (carousel.scrollLeft <= 0) {
+          prevBtn.setAttribute("disabled", "true");
+        } else {
+          prevBtn.removeAttribute("disabled");
+        }
+
+        if (
+          Math.ceil(carousel.scrollLeft) >=
+          carousel.scrollWidth - carousel.clientWidth - 1
+        ) {
+          nextBtn.setAttribute("disabled", "true");
+        } else {
+          nextBtn.removeAttribute("disabled");
+        }
+      };
+
+      carousel.addEventListener("scroll", updateButtons);
+      // Inicializar estado usando setTimeout para permitir renderizado de layout inicial
+      setTimeout(updateButtons, 150);
+      window.addEventListener("resize", updateButtons);
+    }
+  });
+</script>
+
+<style>
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* IE y Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari y Opera */
+  }
+</style>

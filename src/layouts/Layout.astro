@@ -1,0 +1,46 @@
+---
+// Layout base con Tailwind CSS
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>InMotus</title>
+    <meta
+      name="description"
+      content="Fisioterapia especializada y personalizada para ayudarte a volver a lo que más amas."
+    />
+    <script is:inline>
+      // Modo oscuro desactivado a petición del usuario
+      document.documentElement.classList.remove("dark");
+    </script>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased">
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  @font-face {
+    font-family: "Inter";
+  }
+
+  body {
+    font-family:
+      "Inter",
+      system-ui,
+      -apple-system,
+      sans-serif;
+  }
+</style>

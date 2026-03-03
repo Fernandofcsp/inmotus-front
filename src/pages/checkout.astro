@@ -1,0 +1,219 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+
+// Obtener datos de la URL
+const serviceTitle =
+  Astro.url.searchParams.get("service") || "Consulta General";
+const servicePrice = Astro.url.searchParams.get("price") || "500";
+---
+
+<Layout title="Checkout | INMOTUS">
+  <Header />
+  <main class="min-h-screen bg-transparent pt-24 pb-12">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+        class="bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden border border-slate-200 dark:border-slate-800"
+      >
+        <!-- Header del Checkout -->
+        <div
+          class="bg-slate-900 dark:bg-slate-950 p-6 text-white text-center border-b dark:border-slate-800"
+        >
+          <h1 class="text-2xl font-bold">Resumen de tu Orden</h1>
+        </div>
+
+        <div class="p-8">
+          <!-- Detalles del Servicio -->
+          <div
+            class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-6 mb-6"
+          >
+            <div>
+              <h2
+                id="service-title"
+                class="text-xl font-bold text-slate-900 dark:text-white"
+              >
+                {serviceTitle}
+              </h2>
+              <p class="text-slate-500 dark:text-slate-400 text-sm">
+                Servicio de Fisioterapia
+              </p>
+            </div>
+            <div class="text-right">
+              <p
+                id="service-price"
+                class="text-2xl font-bold text-cyan-600 dark:text-cyan-400"
+              >
+                ${servicePrice}
+                <span
+                  class="text-sm text-slate-500 dark:text-slate-400 font-normal"
+                  >MXN</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <!-- Formulario de Email -->
+          <div class="mb-8">
+            <label
+              for="email"
+              class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+              >Correo Electrónico para tu confirmación</label
+            >
+            <input
+              type="email"
+              id="email"
+              placeholder="tu@correo.com"
+              class="w-full px-4 py-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:ring-2 focus:ring-cyan-500 dark:focus:ring-cyan-400 focus:border-cyan-500 dark:focus:border-cyan-400 outline-none transition-all text-slate-900 dark:text-white bg-white dark:bg-slate-800"
+              required
+            />
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
+              Te enviaremos el comprobante y el enlace de agendamiento a este
+              correo.
+            </p>
+          </div>
+
+          <!-- Botón de Pago (Se activará con JS) -->
+          <button
+            id="pay-button"
+            class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold text-lg shadow-lg shadow-cyan-500/25 transition-all transform hover:scale-[1.02] flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span>Pagar con MercadoPago</span>
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+              ></path></svg
+            >
+          </button>
+          <div id="wallet_container" class="mt-4"></div>
+
+          <div class="mt-6 text-center">
+            <p
+              class="text-sm text-slate-500 dark:text-slate-400 flex items-center justify-center gap-1"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                ></path></svg
+              >
+              Pago 100% Seguro procesado por MercadoPago
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+// mpPublicKey ya viene inyectada
+
+<script is:inline>
+  // Cargar SDK de MercadoPago dinámicamente
+  function loadMercadoPago() {
+    return new Promise((resolve, reject) => {
+      if (window.MercadoPago) return resolve();
+      const script = document.createElement("script");
+      script.src = "https://sdk.mercadopago.com/js/v2";
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+
+  (function () {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const title = params.get("service");
+      const price = params.get("price");
+
+      if (title) {
+        const el = document.getElementById("service-title");
+        if (el) el.textContent = title;
+      }
+      if (price) {
+        const el = document.getElementById("service-price");
+        if (el)
+          el.innerHTML = `$${price} <span class="text-sm text-slate-400 font-normal">MXN</span>`;
+      }
+    } catch (e) {
+      console.error("Error UI", e);
+    }
+  })();
+</script>
+
+<script
+  define:vars={{
+    mpPublicKey: import.meta.env.PUBLIC_MP_PUBLIC_KEY,
+    serviceTitle,
+    servicePrice,
+  }}
+>
+  const btn = document.getElementById("pay-button");
+  const emailInput = document.getElementById("email");
+
+  btn.addEventListener("click", async () => {
+    const email = emailInput.value;
+    if (!email || !email.includes("@")) {
+      alert("Por favor ingresa un correo válido");
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Procesando...`;
+
+    try {
+      // 1. Pedir preferencia al backend
+      const response = await fetch("/api/create-preference", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          serviceTitle,
+          servicePrice,
+          email,
+        }),
+      });
+
+      const preference = await response.json();
+
+      if (preference.id) {
+        // 2. Inicializar checkout PRO
+        await loadMercadoPago();
+        const mp = new window.MercadoPago(mpPublicKey);
+
+        // Opción A: Redirigir directamente (Más fácil)
+        // mp.checkout({ preference: { id: preference.id } }).open();
+
+        // Opción B: Crear botón wallet
+        mp.bricks().create("wallet", "wallet_container", {
+          initialization: {
+            preferenceId: preference.id,
+          },
+        });
+
+        btn.classList.add("hidden"); // Ocultar boton manual si cargamos el de MP
+      } else {
+        alert("Error al generar pago");
+        btn.disabled = false;
+        btn.innerText = "Reintentar Pago";
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Ocurrió un error de conexión");
+      btn.disabled = false;
+      btn.innerText = "Reintentar Pago";
+    }
+  });
+</script>
