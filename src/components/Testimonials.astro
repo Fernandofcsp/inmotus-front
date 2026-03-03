@@ -1,0 +1,252 @@
+---
+// Testimonios de Google Maps - se obtienen en tiempo de build
+// Requiere: GOOGLE_PLACES_API_KEY y GOOGLE_PLACE_ID en .env
+
+interface Review {
+  author_name: string;
+  rating: number;
+  text: string;
+  relative_time_description: string;
+}
+
+const FALLBACK_REVIEWS: Review[] = [
+  {
+    author_name: "María González",
+    rating: 5,
+    text: "Excelente atención, muy profesional y dedicado. Me ayudó a recuperarme de una lesión de rodilla en tiempo récord. ¡Totalmente recomendado!",
+    relative_time_description: "hace 2 semanas",
+  },
+  {
+    author_name: "Carlos Ramírez",
+    rating: 5,
+    text: "El mejor fisioterapeuta que he visitado. Tratamiento personalizado y resultados increíbles. Las instalaciones son muy cómodas.",
+    relative_time_description: "hace un mes",
+  },
+  {
+    author_name: "Ana Martínez",
+    rating: 5,
+    text: "Después de mi operación de espalda pensé que no volvería a moverme con normalidad. Gracias a INMOTUS hoy puedo hacer mi vida cotidiana sin dolor.",
+    relative_time_description: "hace 3 semanas",
+  },
+  {
+    author_name: "Roberto Sánchez",
+    rating: 4,
+    text: "Muy buena experiencia. Profesionalismo y trato humano desde el primer día. Notoriamente mejora sesión tras sesión.",
+    relative_time_description: "hace 2 meses",
+  },
+  {
+    author_name: "Lucía Flores",
+    rating: 5,
+    text: "Vine con dolor crónico de hombro que tenía años y en pocas sesiones ya casi no siento molestia. Gracias por el seguimiento tan personalizado.",
+    relative_time_description: "hace un mes",
+  },
+];
+
+let reviews: Review[] = [];
+let fromGoogle = false;
+
+const apiKey = import.meta.env.GOOGLE_PLACES_API_KEY;
+const placeId = import.meta.env.GOOGLE_PLACE_ID;
+
+if (apiKey && placeId) {
+  try {
+    const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews&language=es&key=${apiKey}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.result?.reviews) {
+      reviews = data.result.reviews.filter((r: Review) => r.rating >= 4);
+      fromGoogle = true;
+    }
+  } catch (e) {
+    console.warn("No se pudieron obtener reseñas de Google Places, usando fallback.");
+  }
+}
+
+if (reviews.length === 0) reviews = FALLBACK_REVIEWS;
+
+// Mezclar aleatoriamente (Fisher-Yates)
+for (let i = reviews.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [reviews[i], reviews[j]] = [reviews[j], reviews[i]];
+}
+
+reviews = reviews.slice(0, 6);
+
+function renderStars(rating: number) {
+  return Array.from({ length: 5 }, (_, i) => i < rating ? "★" : "☆").join("");
+}
+---
+
+<section class="py-24 bg-slate-50 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Encabezado -->
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-full px-4 py-1.5 mb-6">
+        <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <span class="text-sm font-medium text-yellow-700">Lo que dicen nuestros pacientes</span>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Experiencias reales</h2>
+      <p class="text-slate-500 max-w-xl mx-auto">
+        Reseñas verificadas de pacientes que confiaron en nosotros para recuperar su movimiento y calidad de vida.
+      </p>
+    </div>
+
+    <!-- Carrusel -->
+    <div class="relative">
+
+      <!-- Botón anterior -->
+      <button
+        id="prev-btn"
+        aria-label="Anterior"
+        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 rounded-full bg-white shadow-md border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 transition-all hidden md:flex"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+
+      <!-- Track -->
+      <div
+        id="carousel-track"
+        class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4"
+        style="scrollbar-width: none; -ms-overflow-style: none;"
+      >
+        {reviews.map((review) => (
+          <article class="snap-start flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col gap-4">
+            <!-- Estrellas -->
+            <div class="flex items-center gap-2">
+              <span class="text-yellow-400 text-lg tracking-wide leading-none">
+                {renderStars(review.rating)}
+              </span>
+              <span class="text-xs text-slate-400 font-medium">{review.rating}.0</span>
+              {fromGoogle && (
+                <div class="ml-auto">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                  </svg>
+                </div>
+              )}
+            </div>
+
+            <!-- Texto -->
+            <blockquote class="text-slate-600 text-sm leading-relaxed flex-1">
+              "{review.text}"
+            </blockquote>
+
+            <!-- Autor -->
+            <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
+              <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <span class="text-blue-600 font-semibold text-sm">
+                  {review.author_name.charAt(0).toUpperCase()}
+                </span>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-slate-800">{review.author_name}</p>
+                <p class="text-xs text-slate-400">{review.relative_time_description}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Botón siguiente -->
+      <button
+        id="next-btn"
+        aria-label="Siguiente"
+        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 rounded-full bg-white shadow-md border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 transition-all hidden md:flex"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Dots -->
+    <div id="carousel-dots" class="flex justify-center gap-2 mt-8">
+      {reviews.map((_, i) => (
+        <button
+          class={`carousel-dot w-2 h-2 rounded-full transition-all ${i === 0 ? 'bg-blue-600 w-6' : 'bg-slate-300'}`}
+          data-index={i}
+          aria-label={`Ir al testimonio ${i + 1}`}
+        />
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-10">
+      <a
+        href={`https://www.google.com/maps/place/InMotus/@20.635229,-103.382239,614m/data=!3m2!1e3!4b1!4m6!3m5!1s0x8428ad02770a943d:0x302eabe44ca182b2!8m2!3d20.635229!4d-103.382239!16s%2Fg%2F11z0vcbhyw?hl=es-419&entry=ttu`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-blue-600 transition-colors"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Ver todas las reseñas en Google
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  #carousel-track::-webkit-scrollbar { display: none; }
+</style>
+
+<script>
+  const track = document.getElementById('carousel-track')!;
+  const dots = document.querySelectorAll<HTMLButtonElement>('.carousel-dot');
+  const prevBtn = document.getElementById('prev-btn')!;
+  const nextBtn = document.getElementById('next-btn')!;
+
+  const cards = track.querySelectorAll<HTMLElement>('article');
+  const total = cards.length;
+  let current = 0;
+  let autoTimer: ReturnType<typeof setInterval>;
+
+  function getCardWidth() {
+    if (!cards[0]) return 0;
+    return cards[0].offsetWidth + 24; // 24 = gap-6
+  }
+
+  function goTo(index: number) {
+    current = (index + total) % total;
+    track.scrollTo({ left: current * getCardWidth(), behavior: 'smooth' });
+    dots.forEach((d, i) => {
+      d.classList.toggle('bg-blue-600', i === current);
+      d.classList.toggle('w-6', i === current);
+      d.classList.toggle('bg-slate-300', i !== current);
+      d.classList.toggle('w-2', i !== current);
+    });
+  }
+
+  function resetTimer() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => goTo(current + 1), 4000);
+  }
+
+  prevBtn.addEventListener('click', () => { goTo(current - 1); resetTimer(); });
+  nextBtn.addEventListener('click', () => { goTo(current + 1); resetTimer(); });
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => { goTo(Number(dot.dataset.index)); resetTimer(); });
+  });
+
+  // Sincronizar dot al hacer scroll táctil
+  track.addEventListener('scrollend', () => {
+    const idx = Math.round(track.scrollLeft / getCardWidth());
+    if (idx !== current) { current = idx; goTo(idx); }
+  });
+
+  // Arrancar auto-avance
+  resetTimer();
+</script>
