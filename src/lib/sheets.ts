@@ -64,7 +64,7 @@ export async function fetchServices(): Promise<Service[]> {
   const token = await getAccessToken();
   if (!token) return [];
 
-  const range = "services_and_products!A2:D1000";
+  const range = "services_and_products!A2:H1000";
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(range)}`;
 
   try {
@@ -79,7 +79,7 @@ export async function fetchServices(): Promise<Service[]> {
     const rows: string[][] = json.values ?? [];
 
     return rows
-      .filter((row) => row[0]?.startsWith("SERV-") && row[3])
+      .filter((row) => row[0]?.startsWith("SERV-") && row[3] && row[7]?.toUpperCase() !== "NO")
       .map((row) => ({
         id: row[0] ?? "",
         category: row[1] ?? "",
