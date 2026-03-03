@@ -8,4 +8,9 @@ export default defineConfig({
   site: 'https://fernandofcsp.github.io',
   base: '/inmotus-front/',
   integrations: [react(), tailwind()],
+  vite: {
+    ssr: {
+      external: ['node:crypto'],
+    },
+  },
 });
