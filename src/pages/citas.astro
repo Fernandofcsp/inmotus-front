@@ -225,11 +225,13 @@ const whatsappNumber = "523318391094";
       // Basic Auth pre-calculado: webagenda:F1s10inmotus_10
       const auth = "d2ViYWdlbmRhOkYxczEwaW5tb3R1c18xMA==";
 
+      // mode: 'no-cors' es necesario porque el webhook usa HTTP y el sitio HTTPS
+      // La respuesta será opaca pero la solicitud llega al servidor
       await fetch(WEBHOOK_URL, {
         method: "POST",
+        mode: "no-cors",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Basic ${auth}`,
         },
         body: JSON.stringify({ ...data, type: "solicitud_web" }),
       });
