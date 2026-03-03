@@ -30,7 +30,7 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Hola,%20tengo%20una%20
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center gap-2">
-                <a href="/" class="flex items-center gap-2 group">
+                <a href={import.meta.env.BASE_URL} class="flex items-center gap-2 group">
                     <div class="transition-colors">
                         <img
                             src={`${import.meta.env.BASE_URL}logo.png`}
@@ -43,7 +43,7 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Hola,%20tengo%20una%20
 
             <div class="hidden md:flex items-center gap-6">
                 <a
-                    href="/#servicios"
+                    href={`${import.meta.env.BASE_URL}#servicios`}
                     class="text-slate-700 hover:text-blue-900 transition-colors font-medium"
                     >Servicios</a
                 >
@@ -58,7 +58,7 @@ const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Hola,%20tengo%20una%20
                 <div class="h-6 w-px bg-slate-200 mx-1"></div>
 
                 <a
-                    href="/citas"
+                    href={`${import.meta.env.BASE_URL}citas`}
                     class="px-5 py-2.5 rounded-full bg-blue-900 hover:bg-slate-900 text-white font-semibold transition-all shadow-md shadow-blue-900/20"
                 >
                     Agendar

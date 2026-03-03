@@ -77,7 +77,7 @@ const formatPhoneNumber = (num?: string) => {
               class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
               <a
-                href="/citas"
+                href={`${import.meta.env.BASE_URL}citas`}
                 class="group px-8 py-4 rounded-full bg-gradient-to-r from-blue-950 to-blue-900 hover:from-blue-900 hover:to-slate-800 text-white font-semibold transition-all shadow-lg shadow-blue-900/25 hover:shadow-blue-900/40 hover:scale-105"
               >
                 Agendar Cita
@@ -208,7 +208,7 @@ const formatPhoneNumber = (num?: string) => {
             <div
               class="flex items-center gap-2 justify-center md:justify-start mb-4"
             >
-              <img src="/logo.png" alt="INMOTUS Logo" class="h-14 w-auto" />
+              <img src={`${import.meta.env.BASE_URL}logo.png`} alt="INMOTUS Logo" class="h-14 w-auto" />
             </div>
             <p class="text-slate-600">
               Recuperando movimiento, restaurando vidas.
