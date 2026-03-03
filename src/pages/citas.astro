@@ -1,42 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
-import fetchApi from "../lib/strapi";
+import { fetchServices } from "../lib/sheets";
 
-// Fetch dynamic services
-interface Service {
-  title: string;
-  price: number;
-  showInWebsite?: boolean;
-}
-
-interface ClinicInfo {
-  whatsapp?: string;
-}
-
-let fetchedServices: Service[] = [];
-let clinicInfo: ClinicInfo | null = null;
-
-try {
-  const [servicesData, clinicData] = await Promise.all([
-    fetchApi<any[]>({ endpoint: "services", wrappedByKey: "data" }),
-    fetchApi<ClinicInfo>({ endpoint: "clinic-info", wrappedByKey: "data" }),
-  ]);
-
-  if (Array.isArray(servicesData)) {
-    fetchedServices = servicesData
-      .filter((item) => item.showInWebsite !== false)
-      .map((item) => ({
-        title: item.title,
-        price: item.price,
-      }));
-  }
-  clinicInfo = clinicData;
-} catch (e) {
-  console.error("Error fetching data for Citas page:", e);
-}
-
-const whatsappNumber = clinicInfo?.whatsapp || "523318391094";
+const fetchedServices = await fetchServices();
+const whatsappNumber = "523318391094";
 ---
 
 <Layout title="Agendar Cita | INMOTUS">

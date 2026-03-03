@@ -1,26 +1,5 @@
 ---
-import fetchApi from "../lib/strapi";
-
-interface ClinicInfo {
-    address: string;
-    mapEmbedUrl: string;
-    facebook?: string;
-    instagram?: string;
-    whatsapp?: string;
-}
-
-let clinicInfo: ClinicInfo | null = null;
-
-try {
-    clinicInfo = await fetchApi<ClinicInfo>({
-        endpoint: "clinic-info",
-        wrappedByKey: "data",
-    });
-} catch (e) {
-    console.error("Error fetching clinic info in Header:", e);
-}
-
-const whatsappNumber = clinicInfo?.whatsapp || "523318391094";
+const whatsappNumber = "523318391094";
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Hola,%20tengo%20una%20duda%20sobre%20fisioterapia`;
 ---
 

@@ -1,50 +1,10 @@
 ---
-import fetchApi from "../lib/strapi";
+import { fetchServices } from "../lib/sheets";
 
-interface Service {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  duration_minutes: number;
-  image?: any;
-  showInWebsite?: boolean;
-}
+const whatsappNumber = "523318391094";
 
-let packages: Service[] = [];
-let error = null;
-
-try {
-  packages = await fetchApi<Service[]>({
-    endpoint: "services",
-    wrappedByKey: "data",
-  });
-} catch (e) {
-  error = e;
-  console.error("Error fetching services from Strapi:", e);
-}
-
-interface ClinicInfo {
-  whatsapp?: string;
-}
-
-let clinicInfo: ClinicInfo | null = null;
-
-try {
-  clinicInfo = await fetchApi<ClinicInfo>({
-    endpoint: "clinic-info",
-    wrappedByKey: "data",
-  });
-} catch (e) {
-  console.error("Error fetching clinic info in Packages:", e);
-}
-
-const whatsappNumber = clinicInfo?.whatsapp || "523318391094";
-
-// Fallback data if API is empty/down
-if (!packages || packages.length === 0) {
-  console.log("No data from Strapi in Packages component");
-}
+let packages = await fetchServices();
+let error = packages.length === 0 ? "No se pudieron cargar los servicios" : null;
 ---
 
 <section id="servicios" class="relative py-24 px-4 sm:px-6 lg:px-8">
@@ -62,11 +22,9 @@ if (!packages || packages.length === 0) {
     </div>
 
     {
-      error && (
-        <div class="text-center p-4 mb-8 bg-red-900/20 border border-red-500/50 rounded-xl text-red-200">
-          <p>
-            Error cargando servicios. Verifica que el backend esté corriendo.
-          </p>
+      error && packages.length === 0 && (
+        <div class="text-center p-4 mb-8 bg-yellow-50 border border-yellow-200 rounded-xl text-yellow-800">
+          <p>No hay servicios disponibles en este momento.</p>
         </div>
       )
     }
@@ -153,7 +111,7 @@ if (!packages || packages.length === 0) {
 
                   {/* CTA Button */}
                   <a
-                    href={`/citas?service=${encodeURIComponent(pkg.title)}`}
+                    href={`${import.meta.env.BASE_URL}citas?service=${encodeURIComponent(pkg.title)}`}
                     class="block text-center w-full py-3.5 px-6 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 hover:border-blue-900 text-slate-800 font-semibold transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-900/25 mt-auto"
                   >
                     Agendar ahora

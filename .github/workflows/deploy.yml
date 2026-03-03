@@ -35,6 +35,8 @@ jobs:
 
       - name: Build with Astro
         run: npm run build
+        env:
+          GOOGLE_SHEETS_API_KEY: ${{ secrets.GOOGLE_SHEETS_API_KEY }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

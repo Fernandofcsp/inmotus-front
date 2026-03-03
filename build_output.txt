@@ -1,0 +1,151 @@
+[2m19:04:25[22m [34m[content][39m Syncing content
+[2m19:04:25[22m [34m[content][39m Synced content
+[2m19:04:25[22m [34m[types][39m Generated [2m244ms[22m
+[2m19:04:25[22m [34m[build][39m output: [34m"static"[39m
+[2m19:04:25[22m [34m[build][39m mode: [34m"static"[39m
+[2m19:04:25[22m [34m[build][39m directory: [34mD:\Windows\Downloads\inmotus-front\dist\[39m
+[2m19:04:25[22m [34m[build][39m Collecting build info...
+[2m19:04:25[22m [34m[build][39m [32mÔ£ô Completed in 1.67s.[39m
+[2m19:04:25[22m [34m[build][39m Building static entrypoints...
+[2m19:04:33[22m [34m[vite][39m [32mÔ£ô built in 8.26s[39m
+[2m19:04:33[22m [34m[build][39m [32mÔ£ô Completed in 8.42s.[39m
+
+[42m[30m building client (vite) [39m[49m
+[2m19:04:33[22m [34m[vite][39m transforming...
+[2m19:04:34[22m [34m[vite][39m [32mÔ£ô[39m 22 modules transformed.
+[2m19:04:34[22m [34m[vite][39m rendering chunks...
+[2m19:04:34[22m [34m[vite][39m computing gzip size...
+[2m19:04:34[22m [34m[vite][39m [2mdist/[22m[36m_astro/client.T9fhd2RU.js  [39m[1m[2m194.63 kB[22m[1m[22m[2m Ôöé gzip: 60.99 kB[22m
+[2m19:04:34[22m [34m[vite][39m [32mÔ£ô built in 983ms[39m
+
+[42m[30m generating static routes [39m[49m
+[2m19:04:35[22m [35m╬╗[39m src/pages/api/create-preference.ts
+[2m19:04:35[22m   [34mÔööÔöÇ[39m [2m/api/create-preference[22m[33m[1m19:04:35[22m [WARN] [router][39m No API Route handler exists for the method "GET" for the route "/inmotus-front/api/create-preference".
+Found handlers: "POST"
+
+ [2m(+5ms)[22m [33m(file not created, response body was empty)[39m
+[2m19:04:36[22m [32mÔûÂ[39m src/pages/checkout.astro
+Fetch API error: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async fetchApi (file:///D:/Windows/Downloads/inmotus-front/dist/chunks/Header_Bo41XDEv.mjs:24:17)
+    at async file:///D:/Windows/Downloads/inmotus-front/dist/chunks/Header_Bo41XDEv.mjs:57:18 {
+  [cause]: AggregateError [ECONNREFUSED]: 
+      at internalConnectMultiple (node:net:1134:18)
+      at afterConnectMultiple (node:net:1715:7) {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+[2m19:04:36[22m   [34mÔööÔöÇ[39m [2m/checkout/index.html[22m [2m(+36ms)[22m 
+[2m19:04:36[22m [32mÔûÂ[39m src/pages/citas.astro
+Fetch API error: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async fetchApi (file:///D:/Windows/Downloads/inmotus-front/dist/chunks/Header_Bo41XDEv.mjs:24:17)
+    at async Promise.all (index 0)
+    at async file:///D:/Windows/Downloads/inmotus-front/dist/pages/citas.astro.mjs?time=1772499876041:16:40
+    at async callComponentAsTemplateResultOrResponse (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/runtime/server/render/astro/render.js:96:25)
+    at async renderToString (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/runtime/server/render/astro/render.js:14:26)
+    at async renderPage (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/runtime/server/render/page.js:49:12)
+    at async lastNext (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/core/render-context.js:215:25)
+    at async NOOP_MIDDLEWARE_FN (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/core/middleware/noop-middleware.js:3:20) {
+  [cause]: AggregateError [ECONNREFUSED]: 
+      at internalConnectMultiple (node:net:1134:18)
+      at afterConnectMultiple (node:net:1715:7) {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+Fetch API error: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async fetchApi (file:///D:/Windows/Downloads/inmotus-front/dist/chunks/Header_Bo41XDEv.mjs:24:17)
+    at async Promise.all (index 1)
+    at async file:///D:/Windows/Downloads/inmotus-front/dist/pages/citas.astro.mjs?time=1772499876041:16:40
+    at async callComponentAsTemplateResultOrResponse (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/runtime/server/render/astro/render.js:96:25)
+    at async renderToString (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/runtime/server/render/astro/render.js:14:26)
+    at async renderPage (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/runtime/server/render/page.js:49:12)
+    at async lastNext (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/core/render-context.js:215:25)
+    at async NOOP_MIDDLEWARE_FN (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/core/middleware/noop-middleware.js:3:20) {
+  [cause]: AggregateError [ECONNREFUSED]: 
+      at internalConnectMultiple (node:net:1134:18)
+      at afterConnectMultiple (node:net:1715:7) {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+Fetch API error: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async fetchApi (file:///D:/Windows/Downloads/inmotus-front/dist/chunks/Header_Bo41XDEv.mjs:24:17)
+    at async file:///D:/Windows/Downloads/inmotus-front/dist/chunks/Header_Bo41XDEv.mjs:57:18 {
+  [cause]: AggregateError [ECONNREFUSED]: 
+      at internalConnectMultiple (node:net:1134:18)
+      at afterConnectMultiple (node:net:1715:7) {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+[2m19:04:36[22m   [34mÔööÔöÇ[39m [2m/citas/index.html[22m [2m(+16ms)[22m 
+[2m19:04:36[22m [32mÔûÂ[39m src/pages/index.astro
+Fetch API error: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async fetchApi (file:///D:/Windows/Downloads/inmotus-front/dist/chunks/Header_Bo41XDEv.mjs:24:17)
+    at async file:///D:/Windows/Downloads/inmotus-front/dist/pages/index.astro.mjs?time=1772499876061:51:18
+    at async callComponentAsTemplateResultOrResponse (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/runtime/server/render/astro/render.js:96:25)
+    at async renderToString (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/runtime/server/render/astro/render.js:14:26)
+    at async renderPage (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/runtime/server/render/page.js:49:12)
+    at async lastNext (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/core/render-context.js:215:25)
+    at async NOOP_MIDDLEWARE_FN (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/core/middleware/noop-middleware.js:3:20)
+    at async callMiddleware (file:///D:/Windows/Downloads/inmotus-front/node_modules/astro/dist/core/middleware/callMiddleware.js:11:10) {
+  [cause]: AggregateError [ECONNREFUSED]: 
+      at internalConnectMultiple (node:net:1134:18)
+      at afterConnectMultiple (node:net:1715:7) {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+Fetch API error: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async fetchApi (file:///D:/Windows/Downloads/inmotus-front/dist/chunks/Header_Bo41XDEv.mjs:24:17)
+    at async file:///D:/Windows/Downloads/inmotus-front/dist/chunks/Header_Bo41XDEv.mjs:57:18 {
+  [cause]: AggregateError [ECONNREFUSED]: 
+      at internalConnectMultiple (node:net:1134:18)
+      at afterConnectMultiple (node:net:1715:7) {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+Fetch API error: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async fetchApi (file:///D:/Windows/Downloads/inmotus-front/dist/chunks/Header_Bo41XDEv.mjs:24:17)
+    at async file:///D:/Windows/Downloads/inmotus-front/dist/pages/index.astro.mjs?time=1772499876061:14:16 {
+  [cause]: AggregateError [ECONNREFUSED]: 
+      at internalConnectMultiple (node:net:1134:18)
+      at afterConnectMultiple (node:net:1715:7) {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+Fetch API error: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async fetchApi (file:///D:/Windows/Downloads/inmotus-front/dist/chunks/Header_Bo41XDEv.mjs:24:17)
+    at async file:///D:/Windows/Downloads/inmotus-front/dist/pages/index.astro.mjs?time=1772499876061:24:18 {
+  [cause]: AggregateError [ECONNREFUSED]: 
+      at internalConnectMultiple (node:net:1134:18)
+      at afterConnectMultiple (node:net:1715:7) {
+    code: 'ECONNREFUSED',
+    [errors]: [ [Error], [Error] ]
+  }
+}
+[2m19:04:36[22m   [34mÔööÔöÇ[39m [2m/index.html[22mNo data from Strapi in Packages component
+ [2m(+20ms)[22m 
+[2m19:04:36[22m [32mÔ£ô Completed in 1.36s.
+[39m
+[2m19:04:36[22m [34m[build][39m 3 page(s) built in [1m12.50s[22m
+[2m19:04:36[22m [34m[build][39m [1mComplete![22m
