@@ -222,16 +222,15 @@ const whatsappNumber = "523318391094";
     btn.innerText = "Enviando...";
 
     try {
-      // Basic Auth pre-calculado: webagenda:F1s10inmotus_10
-      const auth = "d2ViYWdlbmRhOkYxczEwaW5tb3R1c18xMA==";
-
-      // mode: 'no-cors' es necesario porque el webhook usa HTTP y el sitio HTTPS
-      // La respuesta será opaca pero la solicitud llega al servidor
+      // El sitio corre en HTTPS y n8n en HTTP, por lo que el browser bloquea
+      // cabeceras personalizadas en modo no-cors. Se envía como text/plain
+      // (cabecera simple permitida) con el cuerpo en JSON para que n8n lo procese.
+      // En n8n el webhook debe tener autenticación desactivada ("No Auth").
       await fetch(WEBHOOK_URL, {
         method: "POST",
         mode: "no-cors",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "text/plain",
         },
         body: JSON.stringify({ ...data, type: "solicitud_web" }),
       });
