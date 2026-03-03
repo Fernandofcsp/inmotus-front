@@ -23,7 +23,8 @@ export default async function fetchApi<T>({
     endpoint = endpoint.slice(1);
   }
 
-  const url = new URL(`${import.meta.env.PUBLIC_STRAPI_URL}/api/${endpoint}`);
+  const strapiUrl = import.meta.env.PUBLIC_STRAPI_URL || 'http://localhost:1337';
+  const url = new URL(`${strapiUrl}/api/${endpoint}`);
 
   if (query) {
     Object.entries(query).forEach(([key, value]) => {
