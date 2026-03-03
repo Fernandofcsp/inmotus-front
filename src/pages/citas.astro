@@ -172,7 +172,7 @@ const whatsappNumber = "523318391094";
   const btn = document.getElementById("submit-btn");
   const successMsg = document.getElementById("success-msg");
   const serviceSelect = document.getElementById("service");
-  const WEBHOOK_URL = "http://34.55.79.115:5678/webhook/agendawebinmotus";
+  const WEBHOOK_URL = "https://special-automated-corps-minerals.trycloudflare.com/webhook/agendawebinmotus";
 
   // Pre-seleccionar servicio desde la URL
   const params = new URLSearchParams(window.location.search);
@@ -222,15 +222,13 @@ const whatsappNumber = "523318391094";
     btn.innerText = "Enviando...";
 
     try {
-      // El sitio corre en HTTPS y n8n en HTTP, por lo que el browser bloquea
-      // cabeceras personalizadas en modo no-cors. Se envía como text/plain
-      // (cabecera simple permitida) con el cuerpo en JSON para que n8n lo procese.
-      // En n8n el webhook debe tener autenticación desactivada ("No Auth").
+      const auth = "d2ViYWdlbmRhOkYxczEwaW5tb3R1c18xMA==";
+
       await fetch(WEBHOOK_URL, {
         method: "POST",
-        mode: "no-cors",
         headers: {
-          "Content-Type": "text/plain",
+          "Content-Type": "application/json",
+          Authorization: `Basic ${auth}`,
         },
         body: JSON.stringify({ ...data, type: "solicitud_web" }),
       });
