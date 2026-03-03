@@ -5,7 +5,7 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.SITE,
-  base: process.env.BASE_PATH,
+  site: 'https://fernandofcsp.github.io',
+  base: '/inmotus-front',
   integrations: [react(), tailwind()],
 });
