@@ -7,6 +7,7 @@ interface Review {
   rating: number;
   text: string;
   relative_time_description: string;
+  profile_photo_url?: string;
 }
 
 const FALLBACK_REVIEWS: Review[] = [
@@ -54,7 +55,15 @@ if (apiKey && placeId) {
     const res = await fetch(url);
     const data = await res.json();
     if (data.result?.reviews) {
-      reviews = data.result.reviews.filter((r: Review) => r.rating >= 4);
+      reviews = data.result.reviews
+        .filter((r: Review) => r.rating >= 4)
+        .map((r: any) => ({
+          author_name: r.author_name,
+          rating: r.rating,
+          text: r.text,
+          relative_time_description: r.relative_time_description,
+          profile_photo_url: r.profile_photo_url ?? undefined,
+        }));
       fromGoogle = true;
     }
   } catch (e) {
@@ -141,11 +150,22 @@ function renderStars(rating: number) {
 
             <!-- Autor -->
             <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
-              <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                <span class="text-blue-600 font-semibold text-sm">
-                  {review.author_name.charAt(0).toUpperCase()}
-                </span>
-              </div>
+              {review.profile_photo_url ? (
+                <img
+                  src={review.profile_photo_url}
+                  alt={review.author_name}
+                  width="36"
+                  height="36"
+                  class="w-9 h-9 rounded-full object-cover flex-shrink-0"
+                  referrerpolicy="no-referrer"
+                />
+              ) : (
+                <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-blue-600 font-semibold text-sm">
+                    {review.author_name.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              )}
               <div>
                 <p class="text-sm font-semibold text-slate-800">{review.author_name}</p>
                 <p class="text-xs text-slate-400">{review.relative_time_description}</p>
