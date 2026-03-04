@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '0 12 * * *'  # cada día a las 12:00 UTC (6am Guadalajara)
   workflow_dispatch:
 
 permissions:
