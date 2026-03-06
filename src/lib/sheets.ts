@@ -91,3 +91,58 @@ export async function fetchServices(): Promise<Service[]> {
     return [];
   }
 }
+
+export interface Physiotherapist {
+  id: string;
+  name: string;
+  mail: string;
+  age: string;
+  phone_number: string;
+  gender: string;
+  profile_photo: string;
+  full_photo_url: string;
+  instagram: string;
+  facebook: string;
+  experience: string;
+  certifications: string;
+}
+
+export async function fetchPhysiotherapists(): Promise<Physiotherapist[]> {
+  const token = await getAccessToken();
+  if (!token) return [];
+
+  const range = "Physiotherapist!A2:L1000";
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(range)}`;
+
+  try {
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) {
+      console.error(`Sheets API error: ${res.status} ${res.statusText}`);
+      return [];
+    }
+    const json = await res.json();
+    const rows: string[][] = json.values ?? [];
+
+    return rows
+      .map((row) => ({
+        id: row[0] ?? "",
+        name: row[1] ?? "",
+        mail: row[2] ?? "",
+        age: row[3] ?? "",
+        phone_number: row[4] ?? "",
+        gender: row[5] ?? "",
+        profile_photo: row[6] ?? "",
+        full_photo_url: row[7] ?? "",
+        instagram: row[8] ?? "",
+        facebook: row[9] ?? "",
+        experience: row[10] ?? "",
+        certifications: row[11] ?? "",
+      }))
+      .filter((p) => p.full_photo_url !== "" || p.profile_photo !== "");
+  } catch (e) {
+    console.error("Error fetching Google Sheets Physiotherapists:", e);
+    return [];
+  }
+}

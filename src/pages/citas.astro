@@ -9,8 +9,23 @@ const whatsappNumber = "523318391094";
 
 <Layout title="Agendar Cita | INMOTUS">
   <Header />
-  <main class="min-h-screen bg-transparent pt-20 pb-12">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+  <main class="min-h-screen relative bg-slate-50 overflow-hidden pt-20 pb-12">
+    <!-- Decorative background elements -->
+    <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+      <div
+        class="absolute top-0 -right-20 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-float"
+      >
+      </div>
+      <div
+        class="absolute bottom-1/4 -left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-float-slow"
+      >
+      </div>
+      <div
+        class="absolute top-1/2 left-1/4 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl animate-pulse-soft"
+      >
+      </div>
+    </div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="text-center mb-10">
         <h1
           class="text-4xl font-extrabold text-slate-900 tracking-tight sm:text-5xl mb-4"
@@ -33,64 +48,142 @@ const whatsappNumber = "523318391094";
 
           <form id="booking-form" class="space-y-5">
             <div>
-              <label for="name" class="block text-sm font-medium text-slate-700 mb-1">Nombre Completo</label>
-              <input type="text" id="name" name="name" required
+              <label
+                for="name"
+                class="block text-sm font-medium text-slate-700 mb-1"
+                >Nombre Completo</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
                 class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-900 outline-none transition-all"
-                placeholder="Ej: Juan Pérez Gutiérrez" />
+                placeholder="Ej: Juan Pérez Gutiérrez"
+              />
             </div>
 
             <div>
-              <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Correo Electrónico</label>
-              <input type="email" id="email" name="email" required
+              <label
+                for="email"
+                class="block text-sm font-medium text-slate-700 mb-1"
+                >Correo Electrónico</label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
                 class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-900 outline-none transition-all"
-                placeholder="tu@correo.com" />
+                placeholder="tu@correo.com"
+              />
             </div>
 
             <div>
-              <label for="phone" class="block text-sm font-medium text-slate-700 mb-1">Teléfono (WhatsApp) a 10 digitos</label>
-              <input type="tel" id="phone" name="phone" required
+              <label
+                for="phone"
+                class="block text-sm font-medium text-slate-700 mb-1"
+                >Teléfono (WhatsApp) a 10 digitos</label
+              >
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                required
                 class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-900 outline-none transition-all"
-                placeholder="Ej: 3312345678" />
+                placeholder="Ej: 3312345678"
+              />
             </div>
 
             <div>
-              <label for="service" class="block text-sm font-medium text-slate-700 mb-1">Servicio</label>
-              <select id="service" name="service"
-                class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-900 outline-none transition-all">
-                {fetchedServices.map((s) => (
-                  <option value={s.title}>{s.title} - ${s.price} MXN</option>
-                ))}
-                {fetchedServices.length === 0 && (
-                  <option value="Consulta General">Consulta General - $500 MXN</option>
-                )}
+              <label
+                for="service"
+                class="block text-sm font-medium text-slate-700 mb-1"
+                >Servicio</label
+              >
+              <select
+                id="service"
+                name="service"
+                class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-900 outline-none transition-all"
+              >
+                {
+                  fetchedServices.map((s) => (
+                    <option value={s.title}>
+                      {s.title} - ${s.price} MXN
+                    </option>
+                  ))
+                }
+                {
+                  fetchedServices.length === 0 && (
+                    <option value="Consulta General">
+                      Consulta General - $500 MXN
+                    </option>
+                  )
+                }
               </select>
             </div>
 
             <!-- Horario informativo -->
-            <div class="rounded-xl bg-blue-50 border border-blue-100 p-4 flex gap-3">
-              <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            <div
+              class="rounded-xl bg-blue-50 border border-blue-100 p-4 flex gap-3"
+            >
+              <svg
+                class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
               <div class="text-sm text-blue-800">
                 <p class="font-semibold mb-1">Horario de atención</p>
-                <p>Lunes – Viernes: <span class="font-medium">9:00 a.m – 2:00 p.m y 3:00 p.m – 8:00 p.m</span> (última cita 7:00 p.m)</p>
-                <p>Sábado: <span class="font-medium">9:00 a.m – 2:00 p.m</span> (última cita 1:00 p.m)</p>
+                <p>
+                  Lunes – Viernes: <span class="font-medium"
+                    >9:00 a.m – 2:00 p.m y 3:00 p.m – 8:00 p.m</span
+                  > (última cita 7:00 p.m)
+                </p>
+                <p>
+                  Sábado: <span class="font-medium">9:00 a.m – 2:00 p.m</span> (última
+                  cita 1:00 p.m)
+                </p>
                 <p>Domingo: <span class="font-medium">Cerrado</span></p>
               </div>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-4">
               <div class="flex-1 min-w-0">
-                <label for="date" class="block text-sm font-medium text-slate-700 mb-1">Día de Preferencia</label>
-                <input type="date" id="date" name="date" required
-                  class="w-full h-[50px] box-border appearance-none px-3 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-900 outline-none transition-all text-slate-800 bg-white" />
-                <p id="date-warning" class="hidden mt-1 text-xs text-red-600">Los domingos estamos cerrados. Por favor elige otro día.</p>
+                <label
+                  for="date"
+                  class="block text-sm font-medium text-slate-700 mb-1"
+                  >Día de Preferencia</label
+                >
+                <input
+                  type="date"
+                  id="date"
+                  name="date"
+                  required
+                  class="w-full h-[50px] box-border appearance-none px-3 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-900 outline-none transition-all text-slate-800 bg-white"
+                />
+                <p id="date-warning" class="hidden mt-1 text-xs text-red-600">
+                  Los domingos estamos cerrados. Por favor elige otro día.
+                </p>
               </div>
               <div class="flex-1 min-w-0">
-                <label for="time" class="block text-sm font-medium text-slate-700 mb-1">Hora de Preferencia</label>
-                <select id="time" name="time" required
-                  class="w-full h-[50px] px-3 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-900 outline-none transition-all">
+                <label
+                  for="time"
+                  class="block text-sm font-medium text-slate-700 mb-1"
+                  >Hora de Preferencia</label
+                >
+                <select
+                  id="time"
+                  name="time"
+                  required
+                  class="w-full h-[50px] px-3 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-900 outline-none transition-all"
+                >
                   <option value="">Elige un día primero</option>
                 </select>
               </div>
@@ -132,21 +225,23 @@ const whatsappNumber = "523318391094";
   const dateInput = document.getElementById("date");
   const timeSelect = document.getElementById("time");
   const dateWarning = document.getElementById("date-warning");
-  const WEBHOOK_URL = "https://special-automated-corps-minerals.trycloudflare.com/webhook/agendawebinmotus";
+  const WEBHOOK_URL =
+    "https://special-automated-corps-minerals.trycloudflare.com/webhook/agendawebinmotus";
   // TODO: reemplaza esta URL con tu webhook GET de disponibilidad en n8n
-  const AVAILABILITY_URL = "https://special-automated-corps-minerals.trycloudflare.com/webhook/disponibilidad-inmotus";
+  const AVAILABILITY_URL =
+    "https://special-automated-corps-minerals.trycloudflare.com/webhook/disponibilidad-inmotus";
   const AUTH = "d2ViYWdlbmRhOkYxczEwaW5tb3R1c18xMA==";
 
   // Horas base según día
   function getHours(dayOfWeek) {
     if (dayOfWeek === 0) return [];
-    if (dayOfWeek === 6) return [9,10,11,12,13];
+    if (dayOfWeek === 6) return [9, 10, 11, 12, 13];
     // Lun-Vie (sin 14:00 por horario de comida)
-    return [9,10,11,12,13,15,16,17,18,19];
+    return [9, 10, 11, 12, 13, 15, 16, 17, 18, 19];
   }
 
   function formatHour(h) {
-    const suffix = h < 12 ? 'am' : 'pm';
+    const suffix = h < 12 ? "am" : "pm";
     const display = h > 12 ? h - 12 : h;
     return `${display}:00 ${suffix}`;
   }
@@ -164,16 +259,20 @@ const whatsappNumber = "523318391094";
       if (!res.ok) return null;
 
       let raw;
-      try { raw = await res.json(); } catch { return null; }
+      try {
+        raw = await res.json();
+      } catch {
+        return null;
+      }
 
       // n8n puede devolver array plano o envuelto en { json: { ... } }
-      const appts = Array.isArray(raw) ? raw : (raw ? [raw] : []);
+      const appts = Array.isArray(raw) ? raw : raw ? [raw] : [];
       const blocked = new Set();
       for (const appt of appts) {
         // Soportar formato n8n ({ json: { start_time } }) y plano ({ start_time })
         const row = appt?.json ?? appt ?? {};
-        const t = row.start_time || row.startTime || '';
-        const hStr = String(t).split(':')[0];
+        const t = row.start_time || row.startTime || "";
+        const hStr = String(t).split(":")[0];
         const h = parseInt(hStr, 10);
         if (!isNaN(h)) blocked.add(h);
       }
@@ -184,52 +283,53 @@ const whatsappNumber = "523318391094";
   }
 
   function renderHours(hours, blockedSet) {
-    timeSelect.innerHTML = '';
-    const placeholder = document.createElement('option');
-    placeholder.value = '';
-    placeholder.textContent = 'Selecciona una hora';
+    timeSelect.innerHTML = "";
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "Selecciona una hora";
     timeSelect.appendChild(placeholder);
 
     for (const h of hours) {
       if (blockedSet && blockedSet.has(h)) continue; // ocupada → omitir
-      const opt = document.createElement('option');
-      opt.value = `${String(h).padStart(2,'0')}:00`;
+      const opt = document.createElement("option");
+      opt.value = `${String(h).padStart(2, "0")}:00`;
       opt.textContent = formatHour(h);
       timeSelect.appendChild(opt);
     }
 
     if (timeSelect.options.length === 1) {
       // Solo el placeholder → no hay horas disponibles
-      placeholder.textContent = 'Sin horarios disponibles este día';
+      placeholder.textContent = "Sin horarios disponibles este día";
     }
   }
 
   async function updateTimeOptions() {
     const val = dateInput.value;
-    timeSelect.innerHTML = '';
+    timeSelect.innerHTML = "";
 
     if (!val) {
       timeSelect.innerHTML = '<option value="">Elige un día primero</option>';
-      dateWarning.classList.add('hidden');
+      dateWarning.classList.add("hidden");
       return;
     }
 
-    const [y, m, d] = val.split('-').map(Number);
+    const [y, m, d] = val.split("-").map(Number);
     const dt = new Date(y, m - 1, d);
     const day = dt.getDay();
 
     if (day === 0) {
-      dateInput.value = '';
+      dateInput.value = "";
       timeSelect.innerHTML = '<option value="">Elige un día primero</option>';
-      dateWarning.classList.remove('hidden');
+      dateWarning.classList.remove("hidden");
       return;
     }
 
-    dateWarning.classList.add('hidden');
+    dateWarning.classList.add("hidden");
     const hours = getHours(day);
 
     // Estado de carga
-    timeSelect.innerHTML = '<option value="">Consultando disponibilidad…</option>';
+    timeSelect.innerHTML =
+      '<option value="">Consultando disponibilidad…</option>';
     timeSelect.disabled = true;
 
     const blocked = await fetchBlockedHours(val); // null = webhook sin respuesta
@@ -240,11 +340,11 @@ const whatsappNumber = "523318391094";
   // Bloquear fechas pasadas
   const today = new Date();
   const yyyy = today.getFullYear();
-  const mm = String(today.getMonth() + 1).padStart(2, '0');
-  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
   dateInput.min = `${yyyy}-${mm}-${dd}`;
 
-  dateInput.addEventListener('change', updateTimeOptions);
+  dateInput.addEventListener("change", updateTimeOptions);
 
   // Pre-seleccionar servicio desde la URL
   const params = new URLSearchParams(window.location.search);
@@ -277,7 +377,9 @@ const whatsappNumber = "523318391094";
     else if (day === 6) isAllowed = hr >= 9 && hr <= 13;
 
     if (!isAllowed) {
-      alert("Lo sentimos, ese horario está fuera de nuestro horario laboral.\nLun-Vie: 9:00 am – 8:00 pm (última cita 7:00 pm)\nSáb: 9:00 am – 2:00 pm (última cita 1:00 pm)\nDomingos: Cerrado");
+      alert(
+        "Lo sentimos, ese horario está fuera de nuestro horario laboral.\nLun-Vie: 9:00 am – 8:00 pm (última cita 7:00 pm)\nSáb: 9:00 am – 2:00 pm (última cita 1:00 pm)\nDomingos: Cerrado",
+      );
       return;
     }
 

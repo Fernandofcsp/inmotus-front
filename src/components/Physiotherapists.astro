@@ -1,0 +1,332 @@
+---
+import { fetchPhysiotherapists } from "../lib/sheets";
+
+const physios = await fetchPhysiotherapists();
+const originalCount = physios.length;
+const infinitePhysios = Array(12).fill(physios).flat();
+const hideClonesClass = originalCount <= 2 ? "sm:hidden lg:hidden" : originalCount <= 3 ? "lg:hidden" : "";
+---
+
+{
+    physios.length > 0 && (
+        <section
+            id="fisioterapeutas"
+            class="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-slate-50 overflow-hidden"
+        >
+            <!-- Decorative background elements -->
+            <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                <div class="absolute top-0 sm:top-1/4 -left-4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-float"></div>
+                <div class="absolute bottom-0 sm:bottom-1/4 -right-4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-float-slow"></div>
+            </div>
+            <div class="max-w-7xl mx-auto relative z-10">
+                <div class="text-center mb-10 sm:mb-16" data-animate="up">
+                    <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-slate-900">
+                        Conoce a nuestros{" "}
+                        <span class="bg-gradient-to-r from-blue-950 to-blue-900 bg-clip-text text-transparent">
+                            Fisioterapeutas
+                        </span>
+                    </h2>
+                    <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+                        Profesionales altamente capacitados y listos para
+                        ayudarte en tu recuperación.
+                    </p>
+                </div>
+
+                <div class="relative group/carousel">
+                    <!-- Botones de navegación (solo en pantallas md o mayores) -->
+                    <button
+                        id="prev-btn-physio"
+                        aria-label="Anterior Fisioterapeuta"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-6 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-blue-900 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-10 disabled:opacity-0 disabled:cursor-not-allowed hidden md:flex border border-slate-100 hover:bg-slate-50"
+                    >
+                        <svg
+                            class="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M15 19l-7-7 7-7"
+                            />
+                        </svg>
+                    </button>
+
+                    <button
+                        id="next-btn-physio"
+                        aria-label="Siguiente Fisioterapeuta"
+                        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-6 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-blue-900 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-10 disabled:opacity-0 disabled:cursor-not-allowed hidden md:flex border border-slate-100 hover:bg-slate-50"
+                    >
+                        <svg
+                            class="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 5l7 7-7 7"
+                            />
+                        </svg>
+                    </button>
+
+                    <div
+                        id="physio-carousel"
+                        class="flex overflow-x-auto snap-x snap-mandatory gap-6 lg:gap-8 pb-8 pt-4 lg:pt-6 hide-scrollbar scroll-smooth relative"
+                        style="justify-content: safe center;"
+                        data-count={originalCount}
+                    >
+                        {infinitePhysios.map((physio, i) => {
+                            const isClone = i >= originalCount;
+                            const cloneClass = isClone ? hideClonesClass : "";
+
+                            const imageUrl = physio.full_photo_url.startsWith("http")
+                                ? physio.full_photo_url
+                                : `${import.meta.env.BASE_URL}${physio.full_photo_url}`;
+
+                            return (
+                                <div
+                                    class={`physio-card shrink-0 w-[85%] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1.333rem)] snap-center sm:snap-start relative flex items-stretch ${cloneClass}`}
+                                    data-animate="up"
+                                    data-delay={String((i % originalCount) * 150)}
+                                >
+                                    <div class="group relative bg-white w-full rounded-3xl overflow-hidden shadow-lg border border-slate-200 transition-all hover:shadow-2xl hover:-translate-y-2 hover:border-blue-900/30 flex flex-col">
+                                        <div class="aspect-[4/5] w-full bg-slate-50 flex items-center justify-center p-4 sm:p-5 lg:p-6 shrink-0 z-10 border-b border-slate-100">
+                                            <div class="relative w-full h-full rounded-2xl overflow-hidden shadow-sm bg-white border border-slate-200 flex items-center justify-center">
+                                                <img
+                                                    src={imageUrl}
+                                                    alt={`Perfil de ${physio.name}`}
+                                                    class="object-contain w-full h-full object-center group-hover:scale-105 transition-transform duration-500"
+                                                    loading="lazy"
+                                                    onerror="this.src='/placeholder-physio.png'; this.onerror=null;"
+                                                />
+
+                                                {/* Overlay Gradient for readability of anything below */}
+                                                <div class="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none" />
+
+                                                {/* Name overlaid on image */}
+                                                <h3 class="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 text-xl sm:text-2xl font-bold text-white drop-shadow-lg text-center leading-tight">
+                                                    {physio.name}
+                                                </h3>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex flex-col flex-grow overflow-hidden bg-white rounded-b-3xl">
+                                            <div class="p-6 overflow-y-auto custom-scrollbar h-[220px]">
+                                            {/* Specialties / Experience Tags */}
+                                            {physio.experience && (
+                                                <div class="mb-5 mt-2">
+                                                    <p class="text-sm font-semibold text-slate-800 mb-3 text-center">Experiencia en:</p>
+                                                    <div class="flex flex-wrap justify-center gap-2">
+                                                        {physio.experience
+                                                            .split(",")
+                                                            .map((exp:any) => (
+                                                                <span class="w-[calc(50%-0.3rem)] flex items-center justify-center text-center px-2 py-2 bg-blue-50 border border-blue-100 text-blue-800 text-xs font-semibold rounded-xl shadow-sm leading-tight">
+                                                                    {exp.trim()}
+                                                                </span>
+                                                            ))}
+                                                    </div>
+
+                                                </div>
+                                            )}
+
+                                            {/* Certifications if available */}
+                                            {physio.certifications && (
+                                                <div class="mb-6 flex-grow">
+                                                    <p class="text-sm font-semibold text-slate-800 mb-2">
+                                                        Certificaciones:
+                                                    </p>
+                                                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1.5 ml-1">
+                                                        {physio.certifications.split(",").map((cert:any) => (
+                                                            <li>{cert.trim()}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
+
+                                            </div>
+                                            {/* Socials / Contact */}
+                                            <div class="px-6 py-4 border-t border-slate-100 flex items-center justify-center gap-2 shrink-0 bg-slate-50 relative z-10">
+                                                <span class="text-sm font-semibold text-slate-600 tracking-wide">
+                                                    Contacto
+                                                </span>
+
+                                                <div class="flex items-center gap-3">
+                                                    {/* physio.instagram && (
+                                                        <a
+                                                            href={physio.instagram}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            class="text-slate-400 hover:text-pink-600 transition-colors"
+                                                            aria-label={`Instagram de ${physio.name}`}
+                                                        >
+                                                            <svg
+                                                                class="w-5 h-5"
+                                                                fill="currentColor"
+                                                                viewBox="0 0 24 24"
+                                                            >
+                                                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                                            </svg>
+                                                        </a>
+                                                    ) */}
+                                                    {/* physio.facebook && (
+                                                        <a
+                                                            href={physio.facebook}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            class="text-slate-400 hover:text-blue-600 transition-colors"
+                                                            aria-label={`Facebook de ${physio.name}`}
+                                                        >
+                                                            <svg
+                                                                class="w-5 h-5"
+                                                                fill="currentColor"
+                                                                viewBox="0 0 24 24"
+                                                            >
+                                                                <path d="M12 2C6.477 2 2 6.477 2 12c0 5.012 3.668 9.155 8.441 9.897v-7.002H7.901V12h2.54V9.664c0-2.513 1.494-3.9 3.774-3.9 1.096 0 2.242.196 2.242.196v2.464h-1.263c-1.243 0-1.63.77-1.63 1.56L13.56 12h2.822l-.45 2.895h-2.372v7.002C18.332 21.155 22 17.012 22 12c0-5.523-4.477-10-10-10z" />
+                                                            </svg>
+                                                        </a>
+                                                    ) */}
+                                                    {physio.phone_number && (
+                                                        <a
+                                                            href={`https://wa.me/521${physio.phone_number.replace(/\D/g, '')}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            class="text-slate-400 hover:text-green-500 transition-colors"
+                                                            aria-label={`WhatsApp de ${physio.name}`}
+                                                        >
+                                                            <svg
+                                                                class="w-5 h-5"
+                                                                fill="currentColor"
+                                                                viewBox="0 0 24 24"
+                                                            >
+                                                                <path d="M16.6 14c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.7-.3-1.4-.7-2-1.2-.5-.5-1-1.1-1.4-1.7-.1-.2 0-.4.1-.5.1-.1.2-.3.4-.4.1-.1.2-.3.2-.4.1-.2 0-.4 0-.5C10 9.5 9.4 8 9.3 7.8c-.1-.2-.2-.2-.4-.2h-.5c-.2 0-.5.1-.7.3-.6.6-.9 1.3-.9 2.1.1 1.4.9 2.7 1.8 3.7C10.5 15.6 13 17 15.6 17c.9.1 1.8-.1 2.5-.6.2-.2.4-.4.5-.6.1-.3.1-.6.1-.7-.1 0-.3-.1-.5-.2z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5.1L2 22l5.1-1.3C8.6 21.5 10.3 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.3c-1.5 0-3-.4-4.2-1.1l-.3-.2-3.1.8.8-3-.2-.3C4.4 15 4 13.5 4 11.9c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8.1-8 8.1z"/>
+                                                            </svg>
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
+
+<style>
+    .hide-scrollbar {
+        -ms-overflow-style: none; /* IE y Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none; /* Chrome, Safari y Opera */
+    }
+    
+    /* Custom scrollbar para contenido interno de tarjetas */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+        margin-block: 8px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: #94a3b8;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const carousel = document.getElementById("physio-carousel");
+        const prevBtn = document.getElementById("prev-btn-physio");
+        const nextBtn = document.getElementById("next-btn-physio");
+
+        if (carousel && prevBtn && nextBtn) {
+            const originalCount = parseInt(carousel.dataset.count || "0");
+            
+            setTimeout(() => {
+                const items = carousel.querySelectorAll('.physio-card');
+                if (items.length > 0 && originalCount > 0 && items.length > originalCount) {
+                    const getSetWidth = () => {
+                        const first = items[0] as HTMLElement;
+                        const next = items[originalCount] as HTMLElement;
+                        if (!first || !next || next.offsetLeft === 0) return 0; // next está oculto
+                        return next.offsetLeft - first.offsetLeft;
+                    };
+
+                    const initSet = 6; 
+                    
+                    const resetScroll = () => {
+                        const setWidth = getSetWidth();
+                        if (setWidth <= 0) return;
+                        carousel.classList.remove("scroll-smooth");
+                        carousel.scrollLeft = setWidth * initSet;
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => carousel.classList.add("scroll-smooth"));
+                        });
+                    };
+
+                    resetScroll();
+
+                    let isJumping = false;
+                    carousel.addEventListener("scroll", () => {
+                        if (isJumping) return;
+                        const setWidth = getSetWidth();
+                        if (setWidth <= 0) return; // scroll desactivado
+
+                        const currentScroll = carousel.scrollLeft;
+                        if (currentScroll < setWidth * 2) {
+                            isJumping = true;
+                            carousel.classList.remove("scroll-smooth");
+                            carousel.scrollLeft = currentScroll + (setWidth * 6);
+                            requestAnimationFrame(() => {
+                                requestAnimationFrame(() => {
+                                    carousel.classList.add("scroll-smooth");
+                                    isJumping = false;
+                                });
+                            });
+                        } else if (currentScroll > setWidth * 10) {
+                            isJumping = true;
+                            carousel.classList.remove("scroll-smooth");
+                            carousel.scrollLeft = currentScroll - (setWidth * 6);
+                            requestAnimationFrame(() => {
+                                requestAnimationFrame(() => {
+                                    carousel.classList.add("scroll-smooth");
+                                    isJumping = false;
+                                });
+                            });
+                        }
+                    }, { passive: true });
+                    
+                    let resizeTimer: ReturnType<typeof setTimeout>;
+                    window.addEventListener("resize", () => {
+                        clearTimeout(resizeTimer);
+                        resizeTimer = setTimeout(resetScroll, 200);
+                    });
+                }
+            }, 100);
+
+            const scrollAmount = () => carousel.clientWidth * 0.8;
+
+            nextBtn.addEventListener("click", () => {
+                carousel.scrollBy({ left: scrollAmount(), behavior: "smooth" });
+            });
+
+            prevBtn.addEventListener("click", () => {
+                carousel.scrollBy({ left: -scrollAmount(), behavior: "smooth" });
+            });
+        }
+    });
+</script>
