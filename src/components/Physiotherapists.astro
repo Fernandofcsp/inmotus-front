@@ -311,9 +311,13 @@ const hideClonesClass = originalCount <= 2 ? "sm:hidden lg:hidden" : originalCou
                     }, { passive: true });
                     
                     let resizeTimer: ReturnType<typeof setTimeout>;
+                    let windowWidth = window.innerWidth;
                     window.addEventListener("resize", () => {
-                        clearTimeout(resizeTimer);
-                        resizeTimer = setTimeout(resetScroll, 200);
+                        if (window.innerWidth !== windowWidth) {
+                            windowWidth = window.innerWidth;
+                            clearTimeout(resizeTimer);
+                            resizeTimer = setTimeout(resetScroll, 200);
+                        }
                     });
                 }
             }, 100);
