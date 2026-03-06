@@ -128,10 +128,10 @@ function renderStars(rating: number) {
         style="scrollbar-width: none; -ms-overflow-style: none; justify-content: safe center;"
       >
         {/* Espaciador móvil */}
-        <div class="shrink-0 w-[2vw] sm:hidden"></div>
+        <div class="shrink-0 w-[5vw] sm:hidden"></div>
         {reviews.map((review, i) => (
           <article
-            class="snap-center sm:snap-start flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col gap-4"
+            class="snap-center sm:snap-start flex-shrink-0 w-[78vw] sm:w-[60vw] md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col gap-4"
             data-animate="up"
             data-delay={String(i * 80)}
           >
@@ -188,7 +188,7 @@ function renderStars(rating: number) {
           </article>
         ))}
         {/* Espaciador móvil */}
-        <div class="shrink-0 w-[2vw] sm:hidden"></div>
+        <div class="shrink-0 w-[5vw] sm:hidden"></div>
       </div>
 
       <!-- Botón siguiente -->

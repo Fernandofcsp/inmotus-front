@@ -76,12 +76,12 @@ const packages = await fetchServices();
         style="justify-content: safe center;"
       >
         {/* Espaciador móvil para inicio */}
-        <div class="shrink-0 w-[2vw] sm:hidden"></div>
+        <div class="shrink-0 w-[5vw] sm:hidden"></div>
         {
           packages.map((pkg, i) => {
             return (
               <div
-                class="service-card shrink-0 w-[85%] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1.333rem)] snap-center sm:snap-start group relative flex items-stretch"
+                class="service-card shrink-0 w-[78vw] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1.333rem)] snap-center sm:snap-start group relative flex items-stretch"
                 data-animate="up"
                 data-delay={String(i * 100)}
               >
@@ -113,7 +113,7 @@ const packages = await fetchServices();
           })
         }
         {/* Espaciador móvil para final */}
-        <div class="shrink-0 w-[2vw] sm:hidden"></div>
+        <div class="shrink-0 w-[5vw] sm:hidden"></div>
       </div>
     </div>
 
