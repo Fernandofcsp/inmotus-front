@@ -74,6 +74,7 @@ const packages = await fetchServices();
         id="services-carousel"
         class="flex overflow-x-auto snap-x snap-mandatory gap-6 lg:gap-8 pb-8 pt-4 lg:pt-6 hide-scrollbar scroll-smooth"
         style="justify-content: safe center;"
+        data-total={packages.length}
       >
         {/* Espaciador móvil para inicio */}
         <div class="shrink-0 w-[5vw] sm:hidden"></div>
@@ -115,6 +116,19 @@ const packages = await fetchServices();
         {/* Espaciador móvil para final */}
         <div class="shrink-0 w-[5vw] sm:hidden"></div>
       </div>
+    </div>
+
+    <!-- Dots de navegación móvil -->
+    <div id="services-dots" class="flex justify-center gap-2 mt-4 sm:hidden">
+      {
+        packages.map((_, i) => (
+          <button
+            class={`service-dot w-2 h-2 rounded-full transition-all ${i === 0 ? "bg-blue-600 w-6" : "bg-slate-300"}`}
+            data-index={i}
+            aria-label={`Ir al servicio ${i + 1}`}
+          />
+        ))
+      }
     </div>
 
     {
@@ -189,7 +203,37 @@ const packages = await fetchServices();
         }
       };
 
-      carousel.addEventListener("scroll", updateButtons);
+      const dots = document.querySelectorAll<HTMLButtonElement>(".service-dot");
+
+      const updateDots = () => {
+        const total = parseInt(carousel.dataset.total || "1");
+        const index = Math.round(
+          carousel.scrollLeft / (carousel.scrollWidth / total),
+        );
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("bg-blue-600", i === index);
+          dot.classList.toggle("w-6", i === index);
+          dot.classList.toggle("bg-slate-300", i !== index);
+        });
+      };
+
+      carousel.addEventListener("scroll", () => {
+        updateButtons();
+        updateDots();
+      });
+
+      dots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+          const index = Number(dot.dataset.index);
+          const cardWidth =
+            carousel.querySelector(".service-card")?.clientWidth || 0;
+          carousel.scrollTo({
+            left: index * (cardWidth + 24),
+            behavior: "smooth",
+          });
+        });
+      });
+
       setTimeout(updateButtons, 150);
       window.addEventListener("resize", updateButtons);
     }
