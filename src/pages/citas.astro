@@ -43,7 +43,7 @@ const whatsappNumber = "523318391094";
 
       <div class="max-w-2xl mx-auto">
         <div
-          class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-200 overflow-hidden"
+          class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-200"
         >
           <h2 class="text-2xl font-bold text-slate-800 mb-6">
             Detalles de tu Cita
@@ -51,13 +51,13 @@ const whatsappNumber = "523318391094";
 
           <form id="booking-form" class="space-y-5">
             <!-- Nombre del Paciente -->
-            <div class="relative group overflow-hidden">
+            <div class="relative group">
               <input
                 type="text"
                 id="name"
                 name="name"
                 required
-                class="peer w-full max-w-full h-[54px] px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder-transparent text-base text-slate-800 bg-white"
+                class="peer w-full h-[54px] px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder-transparent text-base text-slate-800 bg-white box-border m-0"
                 placeholder="Nombre completo"
               />
               <label
@@ -71,13 +71,13 @@ const whatsappNumber = "523318391094";
             </div>
 
             <!-- Correo Electrónico -->
-            <div class="relative group overflow-hidden">
+            <div class="relative group">
               <input
                 type="email"
                 id="email"
                 name="email"
                 required
-                class="peer w-full max-w-full h-[54px] px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder-transparent text-base text-slate-800 bg-white"
+                class="peer w-full h-[54px] px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder-transparent text-base text-slate-800 bg-white box-border m-0"
                 placeholder="Correo Electrónico"
               />
               <label
@@ -91,14 +91,14 @@ const whatsappNumber = "523318391094";
             </div>
 
             <!-- Teléfono -->
-            <div class="relative group overflow-hidden">
+            <div class="relative group">
               <input
                 type="tel"
                 id="phone"
                 name="phone"
                 required
                 pattern="[0-9]{10}"
-                class="peer w-full max-w-full h-[54px] px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder-transparent text-base text-slate-800 bg-white"
+                class="peer w-full h-[54px] px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder-transparent text-base text-slate-800 bg-white box-border m-0"
                 placeholder="Teléfono (10 dígitos)"
               />
               <label
@@ -111,11 +111,11 @@ const whatsappNumber = "523318391094";
               </label>
             </div>
 
-            <div class="relative group overflow-hidden">
+            <div class="relative group">
               <select
                 id="service"
                 name="service"
-                class="peer w-full max-w-full h-[54px] px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all appearance-none bg-white text-base text-slate-800"
+                class="peer w-full h-[54px] px-3 sm:px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all appearance-none bg-white text-base text-slate-800 box-border m-0"
               >
                 {
                   fetchedServices.map((s) => (
@@ -134,7 +134,7 @@ const whatsappNumber = "523318391094";
               </select>
               <label
                 for="service"
-                class="absolute -top-2.5 left-2 text-xs text-blue-950 bg-white px-1 font-bold transition-all"
+                class="absolute -top-2.5 left-2 text-xs text-blue-950 bg-white px-1 font-bold transition-all z-10"
               >
                 Seleccionar Servicio
               </label>
