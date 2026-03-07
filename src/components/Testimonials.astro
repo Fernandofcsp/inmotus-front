@@ -111,17 +111,6 @@ function renderStars(rating: number) {
     <!-- Carrusel -->
     <div class="relative">
 
-      <!-- Botón anterior -->
-      <button
-        id="prev-btn"
-        aria-label="Anterior"
-        class="absolute -left-2 sm:-left-4 lg:-left-12 top-1/2 -translate-y-1/2 z-[100] w-12 h-12 rounded-full bg-white shadow-xl border border-slate-200 flex items-center justify-center text-slate-700 hover:text-blue-600 hover:scale-110 active:scale-95 transition-all cursor-pointer pointer-events-auto"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-        </svg>
-      </button>
-
       <div
         id="carousel-track"
         class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 px-1"
@@ -191,16 +180,7 @@ function renderStars(rating: number) {
         <div class="shrink-0 w-[5vw] sm:hidden"></div>
       </div>
 
-      <!-- Botón siguiente -->
-      <button
-        id="next-btn"
-        aria-label="Siguiente"
-        class="absolute -right-2 sm:-right-4 lg:-right-12 top-1/2 -translate-y-1/2 z-[100] w-12 h-12 rounded-full bg-white shadow-xl border border-slate-200 flex items-center justify-center text-slate-700 hover:text-blue-600 hover:scale-110 active:scale-95 transition-all cursor-pointer pointer-events-auto"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-        </svg>
-      </button>
+
     </div>
 
     <!-- Dots -->
@@ -241,9 +221,8 @@ function renderStars(rating: number) {
 
 <script>
   const track = document.getElementById('carousel-track')!;
+  const dotsContainer = document.getElementById('carousel-dots')!;
   const dots = document.querySelectorAll<HTMLButtonElement>('.carousel-dot');
-  const prevBtn = document.getElementById('prev-btn')!;
-  const nextBtn = document.getElementById('next-btn')!;
   const cards = track.querySelectorAll<HTMLElement>('article');
   
   let autoTimer: ReturnType<typeof setInterval>;
@@ -255,7 +234,32 @@ function renderStars(rating: number) {
     return cardWidth + gap;
   }
 
-  function updateDots(index: number) {
+  function updateDotsVisibility() {
+    const width = getCardWidth();
+    if (width <= 0) return;
+    
+    const trackWidth = track.offsetWidth;
+    const scrollWidth = track.scrollWidth;
+    
+    dots.forEach((dot, i) => {
+      const dotTargetLeft = i * width;
+      // Si el destino del dot + el ancho del track supera el scroll total (con margen), ocultarlo
+      // Pero siempre mostrar al menos 1 dot
+      if (dotTargetLeft + trackWidth > scrollWidth + 10 && i > 0) {
+        dot.style.display = 'none';
+      } else {
+        dot.style.display = 'block';
+      }
+    });
+  }
+
+  function updateDotsActive() {
+    const width = getCardWidth();
+    if (width <= 0) return;
+    
+    const scrollPos = track.scrollLeft;
+    const index = Math.round(scrollPos / width);
+    
     dots.forEach((dot, i) => {
       const active = i === index;
       dot.classList.toggle('bg-blue-600', active);
@@ -265,14 +269,11 @@ function renderStars(rating: number) {
     });
   }
 
-  // Sincronizar dots al hacer scroll o usar botones
-  track.addEventListener('scroll', () => {
-    const width = getCardWidth();
-    if (width > 0) {
-      const index = Math.round(track.scrollLeft / width);
-      updateDots(index);
-    }
-  }, { passive: true });
+  track.addEventListener('scroll', updateDotsActive, { passive: true });
+  window.addEventListener('resize', () => {
+    updateDotsVisibility();
+    updateDotsActive();
+  });
 
   function resetTimer() {
     clearInterval(autoTimer);
@@ -287,28 +288,6 @@ function renderStars(rating: number) {
     }, 5000);
   }
 
-  prevBtn.addEventListener('click', () => {
-    const width = getCardWidth();
-    const isStart = track.scrollLeft <= 10;
-    if (isStart) {
-      track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
-    } else {
-      track.scrollBy({ left: -width, behavior: 'smooth' });
-    }
-    resetTimer();
-  });
-
-  nextBtn.addEventListener('click', () => {
-    const width = getCardWidth();
-    const isEnd = track.scrollLeft + track.offsetWidth >= track.scrollWidth - 10;
-    if (isEnd) {
-      track.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-      track.scrollBy({ left: width, behavior: 'smooth' });
-    }
-    resetTimer();
-  });
-
   dots.forEach(dot => {
     dot.addEventListener('click', () => {
       const index = Number(dot.dataset.index);
@@ -318,6 +297,8 @@ function renderStars(rating: number) {
     });
   });
 
-  // Arrancar auto-avance
+  // Inicializar
+  updateDotsVisibility();
+  updateDotsActive();
   resetTimer();
 </script>

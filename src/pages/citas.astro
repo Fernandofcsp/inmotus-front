@@ -57,16 +57,16 @@ const whatsappNumber = "523318391094";
                 id="name"
                 name="name"
                 required
-                class="peer w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder-transparent"
-                placeholder="Nombre"
+                class="peer w-full h-[54px] px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder-transparent text-base text-slate-800 bg-white"
+                placeholder="Nombre completo"
               />
               <label
                 for="name"
-                class="absolute left-4 top-3 text-slate-500 text-base transition-all pointer-events-none
-                       peer-focus:-top-2.5 peer-focus:left-2 peer-focus:text-xs peer-focus:text-blue-900 peer-focus:bg-white peer-focus:px-1
-                       peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
+                class="absolute left-4 top-3.5 text-slate-500 text-base transition-all pointer-events-none font-medium
+                       peer-focus:-top-2.5 peer-focus:left-2 peer-focus:text-xs peer-focus:text-blue-950 peer-focus:bg-white peer-focus:px-1
+                       peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-blue-950 peer-[:not(:placeholder-shown)]:font-bold"
               >
-                Nombre del Paciente
+                Nombre completo
               </label>
             </div>
 
@@ -77,14 +77,14 @@ const whatsappNumber = "523318391094";
                 id="email"
                 name="email"
                 required
-                class="peer w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder-transparent"
-                placeholder="Correo"
+                class="peer w-full h-[54px] px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder-transparent text-base text-slate-800 bg-white"
+                placeholder="Correo Electrónico"
               />
               <label
                 for="email"
-                class="absolute left-4 top-3 text-slate-500 text-base transition-all pointer-events-none
-                       peer-focus:-top-2.5 peer-focus:left-2 peer-focus:text-xs peer-focus:text-blue-900 peer-focus:bg-white peer-focus:px-1
-                       peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
+                class="absolute left-4 top-3.5 text-slate-500 text-base transition-all pointer-events-none font-medium
+                       peer-focus:-top-2.5 peer-focus:left-2 peer-focus:text-xs peer-focus:text-blue-950 peer-focus:bg-white peer-focus:px-1
+                       peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-blue-950 peer-[:not(:placeholder-shown)]:font-bold"
               >
                 Correo Electrónico
               </label>
@@ -97,16 +97,17 @@ const whatsappNumber = "523318391094";
                 id="phone"
                 name="phone"
                 required
-                class="peer w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder-transparent"
-                placeholder="Teléfono"
+                pattern="[0-9]{10}"
+                class="peer w-full h-[54px] px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder-transparent text-base text-slate-800 bg-white"
+                placeholder="Teléfono (10 dígitos)"
               />
               <label
                 for="phone"
-                class="absolute left-4 top-3 text-slate-500 text-base transition-all pointer-events-none
-                       peer-focus:-top-2.5 peer-focus:left-2 peer-focus:text-xs peer-focus:text-blue-900 peer-focus:bg-white peer-focus:px-1
-                       peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1"
+                class="absolute left-4 top-3.5 text-slate-500 text-base transition-all pointer-events-none font-medium
+                       peer-focus:-top-2.5 peer-focus:left-2 peer-focus:text-xs peer-focus:text-blue-950 peer-focus:bg-white peer-focus:px-1
+                       peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:left-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-blue-950 peer-[:not(:placeholder-shown)]:font-bold"
               >
-                Teléfono (WhatsApp) a 10 dígitos
+                Teléfono (10 dígitos)
               </label>
             </div>
 
