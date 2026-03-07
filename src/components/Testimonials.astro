@@ -124,8 +124,8 @@ function renderStars(rating: number) {
 
       <div
         id="carousel-track"
-        class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4"
-        style="scrollbar-width: none; -ms-overflow-style: none; justify-content: safe center;"
+        class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 px-1"
+        style="scrollbar-width: none; -ms-overflow-style: none;"
       >
         {/* Espaciador móvil */}
         <div class="shrink-0 w-[5vw] sm:hidden"></div>
@@ -244,43 +244,78 @@ function renderStars(rating: number) {
   const dots = document.querySelectorAll<HTMLButtonElement>('.carousel-dot');
   const prevBtn = document.getElementById('prev-btn')!;
   const nextBtn = document.getElementById('next-btn')!;
-
   const cards = track.querySelectorAll<HTMLElement>('article');
-  const total = cards.length;
-  let current = 0;
+  
   let autoTimer: ReturnType<typeof setInterval>;
 
   function getCardWidth() {
     if (!cards[0]) return 0;
-    return cards[0].offsetWidth + 24; // 24 = gap-6
+    const cardWidth = cards[0].offsetWidth;
+    const gap = 24; // gap-6
+    return cardWidth + gap;
   }
 
-  function goTo(index: number) {
-    current = (index + total) % total;
-    track.scrollTo({ left: current * getCardWidth(), behavior: 'smooth' });
-    dots.forEach((d, i) => {
-      d.classList.toggle('bg-blue-600', i === current);
-      d.classList.toggle('w-6', i === current);
-      d.classList.toggle('bg-slate-300', i !== current);
-      d.classList.toggle('w-2', i !== current);
+  function updateDots(index: number) {
+    dots.forEach((dot, i) => {
+      const active = i === index;
+      dot.classList.toggle('bg-blue-600', active);
+      dot.classList.toggle('w-6', active);
+      dot.classList.toggle('bg-slate-300', !active);
+      dot.classList.toggle('w-2', !active);
     });
   }
 
+  // Sincronizar dots al hacer scroll o usar botones
+  track.addEventListener('scroll', () => {
+    const width = getCardWidth();
+    if (width > 0) {
+      const index = Math.round(track.scrollLeft / width);
+      updateDots(index);
+    }
+  }, { passive: true });
+
   function resetTimer() {
     clearInterval(autoTimer);
-    autoTimer = setInterval(() => goTo(current + 1), 4000);
+    autoTimer = setInterval(() => {
+      const width = getCardWidth();
+      const isEnd = track.scrollLeft + track.offsetWidth >= track.scrollWidth - 10;
+      if (isEnd) {
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        track.scrollBy({ left: width, behavior: 'smooth' });
+      }
+    }, 5000);
   }
 
-  prevBtn.addEventListener('click', () => { goTo(current - 1); resetTimer(); });
-  nextBtn.addEventListener('click', () => { goTo(current + 1); resetTimer(); });
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => { goTo(Number(dot.dataset.index)); resetTimer(); });
+  prevBtn.addEventListener('click', () => {
+    const width = getCardWidth();
+    const isStart = track.scrollLeft <= 10;
+    if (isStart) {
+      track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
+    } else {
+      track.scrollBy({ left: -width, behavior: 'smooth' });
+    }
+    resetTimer();
   });
 
-  // Sincronizar dot al hacer scroll táctil
-  track.addEventListener('scrollend', () => {
-    const idx = Math.round(track.scrollLeft / getCardWidth());
-    if (idx !== current) { current = idx; goTo(idx); }
+  nextBtn.addEventListener('click', () => {
+    const width = getCardWidth();
+    const isEnd = track.scrollLeft + track.offsetWidth >= track.scrollWidth - 10;
+    if (isEnd) {
+      track.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      track.scrollBy({ left: width, behavior: 'smooth' });
+    }
+    resetTimer();
+  });
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const index = Number(dot.dataset.index);
+      const width = getCardWidth();
+      track.scrollTo({ left: index * width, behavior: 'smooth' });
+      resetTimer();
+    });
   });
 
   // Arrancar auto-avance
