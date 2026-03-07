@@ -194,15 +194,18 @@ const whatsappNumber = "523318391094";
                   id="date"
                   name="date"
                   required
-                  class="peer w-full px-4 py-3.5 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-slate-800 bg-white"
+                  class="peer w-full h-[54px] px-4 py-3 sm:py-3.5 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all text-slate-800 bg-white"
                 />
                 <label
                   for="date"
-                  class="absolute -top-2.5 left-2 text-xs text-blue-900 bg-white px-1 font-medium"
+                  class="absolute -top-2.5 left-2 text-[10px] sm:text-xs text-blue-900 bg-white px-1 font-semibold z-10"
                 >
                   Día de Preferencia
                 </label>
-                <p id="date-warning" class="hidden mt-2 text-xs text-red-600">
+                <p
+                  id="date-warning"
+                  class="hidden mt-2 text-xs text-red-600 font-medium"
+                >
                   Los domingos estamos cerrados. Por favor elige otro día.
                 </p>
               </div>
@@ -212,14 +215,14 @@ const whatsappNumber = "523318391094";
                   id="time"
                   name="time"
                   required
-                  class="peer w-full px-4 py-3.5 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all appearance-none bg-white"
+                  class="peer w-full h-[54px] px-4 py-3 sm:py-3.5 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all appearance-none bg-white text-slate-800"
                 >
                   <option value="" disabled selected>Hora de Preferencia</option
                   >
                 </select>
                 <label
                   for="time"
-                  class="absolute -top-2.5 left-2 text-xs text-blue-900 bg-white px-1 font-medium"
+                  class="absolute -top-2.5 left-2 text-[10px] sm:text-xs text-blue-900 bg-white px-1 font-semibold z-10"
                 >
                   Hora
                 </label>
