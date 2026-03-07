@@ -115,9 +115,9 @@ function renderStars(rating: number) {
       <button
         id="prev-btn"
         aria-label="Anterior"
-        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 rounded-full bg-white shadow-md border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 transition-all hidden md:flex"
+        class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 lg:-translate-x-12 z-20 w-12 h-12 rounded-full bg-white shadow-xl border border-slate-200 flex items-center justify-center text-slate-700 hover:text-blue-600 hover:scale-110 active:scale-95 transition-all hidden md:flex cursor-pointer"
       >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
       </button>
@@ -131,7 +131,7 @@ function renderStars(rating: number) {
         <div class="shrink-0 w-[5vw] sm:hidden"></div>
         {reviews.map((review, i) => (
           <article
-            class="snap-center sm:snap-start flex-shrink-0 w-[78vw] sm:w-[60vw] md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col gap-4"
+            class="snap-center sm:snap-start flex-shrink-0 w-[78vw] sm:w-[60vw] md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col gap-4 relative z-0"
             data-animate="up"
             data-delay={String(i * 80)}
           >
@@ -195,9 +195,9 @@ function renderStars(rating: number) {
       <button
         id="next-btn"
         aria-label="Siguiente"
-        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 rounded-full bg-white shadow-md border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 transition-all hidden md:flex"
+        class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 lg:translate-x-12 z-20 w-12 h-12 rounded-full bg-white shadow-xl border border-slate-200 flex items-center justify-center text-slate-700 hover:text-blue-600 hover:scale-110 active:scale-95 transition-all hidden md:flex cursor-pointer"
       >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
       </button>
