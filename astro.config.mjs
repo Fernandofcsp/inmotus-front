@@ -5,8 +5,8 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://fernandofcsp.github.io',
-  base: '/inmotus-front/',
+  site: 'https://inmotus.mx',
+  base: '/',
   integrations: [react(), tailwind()],
   vite: {
     ssr: {
