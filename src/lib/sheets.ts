@@ -18,6 +18,7 @@ export interface Service {
   category: string;
   title: string;
   price: number;
+  includes?: string;
 }
 
 export interface Physiotherapist {
@@ -115,7 +116,7 @@ export async function fetchServices(): Promise<Service[]> {
     return loadFromCache<Service>(SERVICES_CACHE_PATH);
   }
 
-  const range = "services_and_products!A2:H1000";
+  const range = "services_and_products!A2:I1000";
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(range)}`;
 
   try {
@@ -132,12 +133,13 @@ export async function fetchServices(): Promise<Service[]> {
     const rows: string[][] = json.values ?? [];
 
     const services = rows
-      .filter((row) => row[0]?.startsWith("SERV-") && row[3] && row[7]?.toUpperCase() !== "NO")
+      .filter((row) => (row[0]?.startsWith("SERV-") || row[0]?.startsWith("PAQ-") || row[0]?.startsWith("PROD-")) && row[3] && row[8]?.toUpperCase() !== "NO")
       .map((row) => ({
         id: row[0] ?? "",
         category: row[1] ?? "",
         title: row[2] ?? "",
         price: parseFloat(row[3]) || 0,
+        includes: row[4] ?? "",
       }));
 
     if (services.length > 0) {

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "SERV-890f781a",
+    "category": "Servicio",
+    "title": "Consulta de Valoración Fisioterapéutica",
+    "price": 500,
+    "includes": ""
+  },
+  {
+    "id": "SERV-b5ea1e2f",
+    "category": "Servicio",
+    "title": "Descarga Muscular / Masaje Deportivo",
+    "price": 450,
+    "includes": "Masaje en una sola zona"
+  },
+  {
+    "id": "PAQ-b7ef4dc1",
+    "category": "Paquete",
+    "title": "10 Sesiones de Terapia",
+    "price": 3800,
+    "includes": ""
+  },
+  {
+    "id": "SERV-e7ca300a",
+    "category": "Servicio",
+    "title": "Descarga Muscular Cuerpo Completo",
+    "price": 600,
+    "includes": ""
+  },
+  {
+    "id": "PAQ-5a2f5fc0",
+    "category": "Paquete",
+    "title": "Cuerpo completo + una zona específica (Maratones)",
+    "price": 850,
+    "includes": "1 sesión una semana antes del medio maratón , 1 sesión después de la carrera"
+  },
+  {
+    "id": "PAQ-6ebcf4b9",
+    "category": "Paquete",
+    "title": "Descarga muscular de una zona (Maratones)",
+    "price": 600,
+    "includes": "1 sesión previa a la carrera , 1 sesión posterior a la carrera"
+  }
+]

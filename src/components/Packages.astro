@@ -2,7 +2,10 @@
 import { fetchServices } from "../lib/sheets";
 
 const whatsappNumber = "523318391094";
-const packages = await fetchServices();
+const allItems = await fetchServices();
+
+const packages = allItems.filter((item) => item.id.startsWith("PAQ-"));
+const services = allItems.filter((item) => !item.id.startsWith("PAQ-"));
 ---
 
 <section
@@ -19,23 +22,24 @@ const packages = await fetchServices();
     >
     </div>
   </div>
+
   <div class="max-w-7xl mx-auto relative z-10">
+    <!-- SECCIÓN DE SERVICIOS -->
     <div class="text-center mb-6 sm:mb-10" data-animate="up">
       <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-slate-900">
-        Servicios de <span
+        Nuestros <span
           class="bg-gradient-to-r from-blue-950 to-blue-900 bg-clip-text text-transparent"
-          >Fisioterapia</span
+          >Servicios</span
         >
       </h2>
       <p class="text-xl text-slate-600 max-w-2xl mx-auto">
-        Tratamientos personalizados para tu recuperación integral
+        Tratamientos especializados para tu recuperación integral
       </p>
     </div>
 
-    <div class="relative group/carousel">
-      <!-- Botones de navegación (solo en pantallas md o mayores) -->
+    <div class="relative group/carousel mb-16">
       <button
-        id="prev-btn"
+        id="prev-btn-services"
         aria-label="Anterior"
         class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-6 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-blue-900 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-10 disabled:opacity-0 disabled:cursor-not-allowed hidden md:flex border border-slate-100 hover:bg-slate-50"
       >
@@ -53,7 +57,7 @@ const packages = await fetchServices();
       </button>
 
       <button
-        id="next-btn"
+        id="next-btn-services"
         aria-label="Siguiente"
         class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-6 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-blue-900 opacity-0 group-hover/carousel:opacity-100 transition-opacity z-10 disabled:opacity-0 disabled:cursor-not-allowed hidden md:flex border border-slate-100 hover:bg-slate-50"
       >
@@ -71,70 +75,229 @@ const packages = await fetchServices();
       </button>
 
       <div
-        id="services-carousel"
+        id="carousel-services"
         class="flex overflow-x-auto snap-x snap-mandatory gap-6 lg:gap-8 pb-8 pt-4 lg:pt-6 hide-scrollbar scroll-smooth"
         style="justify-content: safe center;"
-        data-total={packages.length}
+        data-total={services.length}
       >
-        {/* Espaciador móvil para inicio */}
+        {/* Espaciador móvil */}
         <div class="shrink-0 w-[5vw] sm:hidden"></div>
         {
-          packages.map((pkg, i) => {
-            return (
-              <div
-                class="service-card shrink-0 w-[78vw] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1.333rem)] snap-center sm:snap-start group relative flex items-stretch"
-                data-animate="up"
-                data-delay={String(i * 100)}
-              >
-                {/* Card */}
-                <div class="relative w-full h-full bg-white backdrop-blur-sm border border-slate-200 rounded-2xl p-8 transition-all duration-300 hover:border-blue-900/50 shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-900/10 flex flex-col">
-                  {/* Title */}
-                  <h3 class="text-2xl text-center font-bold mb-2 text-slate-900">
-                    {pkg.title}
+          services.map((item, i) => (
+            <div
+              class="service-card shrink-0 w-[78vw] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1.333rem)] snap-center sm:snap-start group relative flex items-stretch"
+              data-animate="up"
+              data-delay={String(i * 100)}
+            >
+              <div class="relative w-full h-full bg-white backdrop-blur-sm border border-slate-200 rounded-3xl p-6 sm:p-8 transition-all duration-300 hover:border-blue-900/50 shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-900/10 flex flex-col items-center text-center">
+                <div class="mb-4">
+                  <h3 class="text-2xl font-bold text-slate-900 leading-tight">
+                    {item.title}
                   </h3>
+                </div>
 
-                  {/* Price */}
-                  <div class="mb-6 text-center">
-                    <span class="text-4xl font-bold bg-gradient-to-r from-blue-950 to-blue-900 bg-clip-text text-transparent">
-                      ${pkg.price}
-                    </span>
-                    <span class="text-slate-500 ml-2">MXN</span>
+                {item.includes && (
+                  <div class="mb-6 py-4 border-t border-slate-100 w-full flex flex-col items-center">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4">
+                      Incluye:
+                    </p>
+                    <ul class="space-y-3 w-full max-w-[280px]">
+                      {item.includes.split(",").map((text) => (
+                        <li class="flex items-start justify-center gap-2 text-slate-600 text-sm">
+                          <svg
+                            class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                          <span class="text-left">{text.trim()}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
+                )}
 
-                  {/* CTA Button */}
+                <div class="mt-auto pt-6 flex flex-col gap-4 w-full">
+                  <div class="text-center">
+                    <span class="text-3xl font-bold bg-gradient-to-r from-blue-950 to-blue-900 bg-clip-text text-transparent">
+                      ${item.price}
+                    </span>
+                    <span class="text-slate-400 text-sm font-medium ml-1">
+                      MXN
+                    </span>
+                  </div>
                   <a
-                    href={`${import.meta.env.BASE_URL}citas?service=${encodeURIComponent(pkg.title)}`}
-                    class="block text-center w-full py-3.5 px-6 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 hover:border-blue-900 text-slate-800 font-semibold transition-all duration-300 group-hover:shadow-lg group-hover:shadow-blue-900/25 mt-auto"
+                    href={`${import.meta.env.BASE_URL}citas?service=${encodeURIComponent(item.title)}`}
+                    class="block text-center w-full py-3.5 px-6 rounded-xl bg-blue-900 text-white font-bold transition-all duration-300 hover:bg-slate-900 shadow-lg shadow-blue-900/20 active:scale-95 text-sm"
                   >
                     Agendar ahora
                   </a>
                 </div>
               </div>
-            );
-          })
+            </div>
+          ))
         }
-        {/* Espaciador móvil para final */}
         <div class="shrink-0 w-[5vw] sm:hidden"></div>
+      </div>
+
+      <div id="dots-services" class="flex justify-center gap-2 mt-4 sm:hidden">
+        {
+          services.map((_, i) => (
+            <button
+              class={`service-dot w-2 h-2 rounded-full transition-all ${i === 0 ? "bg-blue-600 w-6" : "bg-slate-300"}`}
+              data-index={i}
+            />
+          ))
+        }
       </div>
     </div>
 
-    <!-- Dots de navegación móvil -->
-    <div id="services-dots" class="flex justify-center gap-2 mt-4 sm:hidden">
-      {
-        packages.map((_, i) => (
-          <button
-            class={`service-dot w-2 h-2 rounded-full transition-all ${i === 0 ? "bg-blue-600 w-6" : "bg-slate-300"}`}
-            data-index={i}
-            aria-label={`Ir al servicio ${i + 1}`}
-          />
-        ))
-      }
-    </div>
-
+    <!-- SECCIÓN DE PAQUETES -->
     {
-      packages.length === 0 && (
-        <div class="text-center py-12 text-slate-500">
-          <p>No hay servicios disponibles en este momento.</p>
+      packages.length > 0 && (
+        <div class="mt-20" id="paquetes">
+          <div class="text-center mb-6 sm:mb-10" data-animate="up">
+            <h2 class="text-4xl sm:text-5xl font-bold mb-4 text-slate-900">
+              Paquetes{" "}
+              <span class="bg-gradient-to-r from-blue-950 to-blue-900 bg-clip-text text-transparent">
+                Promocionales
+              </span>
+            </h2>
+            <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+              Ahorra con nuestros paquetes de sesiones especializadas
+            </p>
+          </div>
+
+          <div class="relative group/carousel-paq">
+            <button
+              id="prev-btn-packages"
+              aria-label="Anterior"
+              class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-6 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-blue-900 opacity-0 group-hover/carousel-paq:opacity-100 transition-opacity z-10 disabled:opacity-0 disabled:cursor-not-allowed hidden md:flex border border-slate-100 hover:bg-slate-50"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <button
+              id="next-btn-packages"
+              aria-label="Siguiente"
+              class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-6 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-blue-900 opacity-0 group-hover/carousel-paq:opacity-100 transition-opacity z-10 disabled:opacity-0 disabled:cursor-not-allowed hidden md:flex border border-slate-100 hover:bg-slate-50"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+
+            <div
+              id="carousel-packages"
+              class="flex overflow-x-auto snap-x snap-mandatory gap-6 lg:gap-8 pb-8 pt-4 lg:pt-6 hide-scrollbar scroll-smooth"
+              style="justify-content: safe center;"
+              data-total={packages.length}
+            >
+              <div class="shrink-0 w-[5vw] sm:hidden" />
+              {packages.map((item, i) => (
+                <div
+                  class="service-card shrink-0 w-[78vw] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1.333rem)] snap-center sm:snap-start group relative flex items-stretch"
+                  data-animate="up"
+                  data-delay={String(i * 100)}
+                >
+                  <div class="relative w-full h-full bg-white backdrop-blur-sm border border-slate-200 rounded-3xl p-6 sm:p-8 transition-all duration-300 hover:border-blue-900/50 shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-900/10 flex flex-col items-center text-center ring-2 ring-blue-900/5">
+                    <div class="mb-4">
+                      <h3 class="text-2xl font-bold text-slate-900 leading-tight">
+                        {item.title}
+                      </h3>
+                    </div>
+
+                    {item.includes && (
+                      <div class="mb-6 py-4 border-t border-slate-100 w-full flex flex-col items-center">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4">
+                          Este paquete incluye:
+                        </p>
+                        <ul class="space-y-3 w-full max-w-[280px]">
+                          {item.includes.split(",").map((text) => (
+                            <li class="flex items-start justify-center gap-2 text-slate-600 text-sm">
+                              <svg
+                                class="w-4 h-4 text-blue-900 shrink-0 mt-0.5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M5 13l4 4L19 7"
+                                />
+                              </svg>
+                              <span class="text-left">{text.trim()}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    <div class="mt-auto pt-6 flex flex-col gap-4 w-full">
+                      <div class="text-center">
+                        <span class="text-3xl font-bold bg-gradient-to-r from-blue-950 to-blue-900 bg-clip-text text-transparent">
+                          ${item.price}
+                        </span>
+                        <span class="text-slate-400 text-sm font-medium ml-1">
+                          MXN
+                        </span>
+                      </div>
+                      <a
+                        href={`${import.meta.env.BASE_URL}citas?service=${encodeURIComponent(item.title)}`}
+                        class="block text-center w-full py-3.5 px-6 rounded-xl bg-slate-900 text-white font-bold transition-all duration-300 hover:bg-blue-900 shadow-lg shadow-blue-900/20 active:scale-95 text-sm"
+                      >
+                        Agendar Paquete
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <div class="shrink-0 w-[5vw] sm:hidden" />
+            </div>
+
+            <div
+              id="dots-packages"
+              class="flex justify-center gap-2 mt-4 sm:hidden"
+            >
+              {packages.map((_, i) => (
+                <button
+                  class={`service-dot w-2 h-2 rounded-full transition-all ${i === 0 ? "bg-blue-600 w-6" : "bg-slate-300"}`}
+                  data-index={i}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       )
     }
@@ -154,26 +317,30 @@ const packages = await fetchServices();
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
-        >
-          <path
+          ><path
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-        </svg>
+            d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg
+        >
       </a>
     </div>
   </div>
 </section>
 
-<!-- Script del carrusel -->
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const carousel = document.getElementById("services-carousel");
-    const prevBtn = document.getElementById("prev-btn");
-    const nextBtn = document.getElementById("next-btn");
+  function initCarousel(
+    carouselId: string,
+    prevBtnId: string,
+    nextBtnId: string,
+    dotsContainerId: string,
+  ) {
+    const carousel = document.getElementById(carouselId);
+    const prevBtn = document.getElementById(prevBtnId);
+    const nextBtn = document.getElementById(nextBtnId);
+    const dotsContainer = document.getElementById(dotsContainerId);
 
-    if (carousel && prevBtn && nextBtn) {
+    if (carousel && prevBtn && nextBtn && dotsContainer) {
       const scrollAmount = () => carousel.clientWidth * 0.8;
 
       nextBtn.addEventListener("click", () => {
@@ -185,9 +352,7 @@ const packages = await fetchServices();
       });
 
       const updateButtons = () => {
-        if (!carousel || !prevBtn || !nextBtn) return;
-
-        if (carousel.scrollLeft <= 0) {
+        if (carousel.scrollLeft <= 5) {
           prevBtn.setAttribute("disabled", "true");
         } else {
           prevBtn.removeAttribute("disabled");
@@ -195,7 +360,7 @@ const packages = await fetchServices();
 
         if (
           Math.ceil(carousel.scrollLeft) >=
-          carousel.scrollWidth - carousel.clientWidth - 1
+          carousel.scrollWidth - carousel.clientWidth - 10
         ) {
           nextBtn.setAttribute("disabled", "true");
         } else {
@@ -203,7 +368,8 @@ const packages = await fetchServices();
         }
       };
 
-      const dots = document.querySelectorAll<HTMLButtonElement>(".service-dot");
+      const dots =
+        dotsContainer.querySelectorAll<HTMLButtonElement>(".service-dot");
 
       const updateDots = () => {
         const total = parseInt(carousel.dataset.total || "1");
@@ -225,8 +391,8 @@ const packages = await fetchServices();
       dots.forEach((dot) => {
         dot.addEventListener("click", () => {
           const index = Number(dot.dataset.index);
-          const cardWidth =
-            carousel.querySelector(".service-card")?.clientWidth || 0;
+          const card = carousel.querySelector(".service-card") as HTMLElement;
+          const cardWidth = card?.clientWidth || 0;
           carousel.scrollTo({
             left: index * (cardWidth + 24),
             behavior: "smooth",
@@ -237,15 +403,30 @@ const packages = await fetchServices();
       setTimeout(updateButtons, 150);
       window.addEventListener("resize", updateButtons);
     }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initCarousel(
+      "carousel-services",
+      "prev-btn-services",
+      "next-btn-services",
+      "dots-services",
+    );
+    initCarousel(
+      "carousel-packages",
+      "prev-btn-packages",
+      "next-btn-packages",
+      "dots-packages",
+    );
   });
 </script>
 
 <style>
   .hide-scrollbar {
-    -ms-overflow-style: none; /* IE y Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
   .hide-scrollbar::-webkit-scrollbar {
-    display: none; /* Chrome, Safari y Opera */
+    display: none;
   }
 </style>
