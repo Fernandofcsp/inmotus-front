@@ -12,6 +12,7 @@ if (!fs.existsSync(DATA_DIR)) {
 
 const SERVICES_CACHE_PATH = path.join(DATA_DIR, "services.json");
 const PHYSIOS_CACHE_PATH = path.join(DATA_DIR, "physiotherapists.json");
+const FAQ_CACHE_PATH = path.join(DATA_DIR, "faq.json");
 
 export interface Service {
   id: string;
@@ -35,6 +36,11 @@ export interface Physiotherapist {
   experience: string;
   certifications: string;
   cedula?: string;
+}
+
+export interface FAQ {
+  question: string;
+  answer: string;
 }
 
 // Helpers para manejar caché local
@@ -204,5 +210,47 @@ export async function fetchPhysiotherapists(): Promise<Physiotherapist[]> {
   } catch (e) {
     console.error("Error fetching Google Sheets Physiotherapists, intentando caché local:", e);
     return loadFromCache<Physiotherapist>(PHYSIOS_CACHE_PATH);
+  }
+}
+
+export async function fetchFAQs(): Promise<FAQ[]> {
+  const token = await getAccessToken();
+  
+  if (!token) {
+    console.warn("Sin token de Google, cargando FAQs desde caché local...");
+    return loadFromCache<FAQ>(FAQ_CACHE_PATH);
+  }
+
+  const range = "freq_ask!A2:B100";
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(range)}`;
+
+  try {
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) {
+      console.error(`Sheets API error: ${res.status}. Cargando caché local...`);
+      return loadFromCache<FAQ>(FAQ_CACHE_PATH);
+    }
+
+    const json = await res.json();
+    const rows: string[][] = json.values ?? [];
+
+    const faqs = rows
+      .filter((row) => row[0] && row[1])
+      .map((row) => ({
+        question: row[0] ?? "",
+        answer: row[1] ?? "",
+      }));
+
+    if (faqs.length > 0) {
+      saveToCache(FAQ_CACHE_PATH, faqs);
+    }
+
+    return faqs.length > 0 ? faqs : loadFromCache<FAQ>(FAQ_CACHE_PATH);
+  } catch (e) {
+    console.error("Error fetching Google Sheets FAQs, intentando caché local:", e);
+    return loadFromCache<FAQ>(FAQ_CACHE_PATH);
   }
 }

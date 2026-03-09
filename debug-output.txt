@@ -1,0 +1,9 @@
+
+Probando rango: services_and_products!A2:I10
+├ëxito! Encontradas 7 filas.
+
+Probando rango: Physiotherapist!A2:M10
+├ëxito! Encontradas 3 filas.
+
+Probando rango: freq_ask!A2:B10
+├ëxito! Encontradas 5 filas.
