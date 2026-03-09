@@ -99,19 +99,29 @@ const hideClonesClass = originalCount <= 2 ? "sm:hidden lg:hidden" : originalCou
                                             <div class="relative w-full h-full rounded-2xl overflow-hidden isolate shadow-sm bg-white border border-slate-200 flex items-center justify-center">
                                                 <img
                                                     src={imageUrl}
-                                                    alt={`Perfil de ${physio.name}`}
+                                                    alt={`Perfil de ${physio.name}, fisioterapeuta especialista en InMotus`}
                                                     class="object-cover w-full h-full object-center group-hover:scale-105 transition-transform duration-500 rounded-2xl"
                                                     loading="lazy"
                                                     onerror="this.src='/placeholder-physio.png'; this.onerror=null;"
                                                 />
 
-                                                {/* Overlay Gradient for readability of anything below */}
+                                                {/* Overlay Gradient for readability */}
                                                 <div class="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none" />
 
-                                                {/* Name overlaid on image */}
-                                                <h3 class="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 text-xl sm:text-2xl font-bold text-white drop-shadow-lg text-center leading-tight">
-                                                    {physio.name}
-                                                </h3>
+                                                {/* Name and Professional Badge overlaid on image */}
+                                                <div class="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 flex flex-col items-center gap-2 z-10">
+                                                    <h3 class="text-xl sm:text-2xl font-bold text-white drop-shadow-lg text-center leading-tight">
+                                                        {physio.name}
+                                                    </h3>
+                                                    {physio.cedula && (
+                                                        <span class="bg-blue-900/90 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg flex items-center gap-1 w-fit">
+                                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                                                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                                            </svg>
+                                                            Cédula: {physio.cedula}
+                                                        </span>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
 

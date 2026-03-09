@@ -34,6 +34,7 @@ export interface Physiotherapist {
   facebook: string;
   experience: string;
   certifications: string;
+  cedula?: string;
 }
 
 // Helpers para manejar caché local
@@ -161,7 +162,7 @@ export async function fetchPhysiotherapists(): Promise<Physiotherapist[]> {
     return loadFromCache<Physiotherapist>(PHYSIOS_CACHE_PATH);
   }
 
-  const range = "Physiotherapist!A2:L1000";
+  const range = "Physiotherapist!A2:M1000";
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(range)}`;
 
   try {
@@ -191,6 +192,7 @@ export async function fetchPhysiotherapists(): Promise<Physiotherapist[]> {
         facebook: row[9] ?? "",
         experience: row[10] ?? "",
         certifications: row[11] ?? "",
+        cedula: row[12] ?? "",
       }))
       .filter((p) => p.full_photo_url !== "" || p.profile_photo !== "");
 
