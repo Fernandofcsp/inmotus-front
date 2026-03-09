@@ -123,7 +123,7 @@ const hideClonesClass = originalCount <= 2 ? "sm:hidden lg:hidden" : originalCou
                                                     <p class="text-sm font-semibold text-slate-800 mb-3 text-center">Experiencia en:</p>
                                                     <div class="flex flex-wrap justify-center gap-2">
                                                         {physio.experience
-                                                            .split(",")
+                                                            .split("|")
                                                             .map((exp:any) => (
                                                                 <span class="w-[calc(50%-0.3rem)] flex items-center justify-center text-center px-2 py-2 bg-blue-50 border border-blue-100 text-blue-800 text-xs font-semibold rounded-xl shadow-sm leading-tight">
                                                                     {exp.trim()}
@@ -141,7 +141,7 @@ const hideClonesClass = originalCount <= 2 ? "sm:hidden lg:hidden" : originalCou
                                                         Certificaciones:
                                                     </p>
                                                     <ul class="list-disc list-inside text-sm text-slate-600 space-y-1.5 ml-1">
-                                                        {physio.certifications.split(",").map((cert:any) => (
+                                                        {physio.certifications.split("|").map((cert:any) => (
                                                             <li>{cert.trim()}</li>
                                                         ))}
                                                     </ul>

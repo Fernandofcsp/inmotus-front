@@ -4,41 +4,41 @@
     "category": "Servicio",
     "title": "Consulta de Valoración Fisioterapéutica",
     "price": 500,
-    "includes": ""
+    "includes": "Historia clínica completa y análisis de lesiones. | Evaluación de postura y rango de movimiento. |Diagnóstico funcional y plan de tratamiento a medida. | Guía de ejercicios iniciales para realizar en casa."
   },
   {
     "id": "SERV-b5ea1e2f",
     "category": "Servicio",
-    "title": "Descarga Muscular / Masaje Deportivo",
+    "title": "Descarga Muscular / Masaje Deportivo - 1 Zona",
     "price": 450,
-    "includes": "Masaje en una sola zona"
+    "includes": "Trabajo intenso en la zona de tu elección (Piernas, Espalda o Brazos). | Eliminación de puntos gatillo y tensión acumulada. | Estiramiento específico para recuperar el rango de movimiento."
   },
   {
     "id": "PAQ-b7ef4dc1",
     "category": "Paquete",
     "title": "10 Sesiones de Terapia",
     "price": 3800,
-    "includes": ""
+    "includes": "Ahorro Garantizado: Tarifa preferencial por sesión en todo tu tratamiento.|Seguimiento Continuo: Re-evaluaciones de progreso cada 3 o 5 sesiones.|Prioridad: Facilidad de programación de citas recurrentes para asegurar tu horario.|Plan Evolutivo: Ajuste constante de técnicas y ejercicios según tu mejora."
   },
   {
     "id": "SERV-e7ca300a",
     "category": "Servicio",
     "title": "Descarga Muscular Cuerpo Completo",
     "price": 600,
-    "includes": ""
+    "includes": "Terapia manual profunda en piernas, espalda y brazos. | Uso de terapia de percusión y liberación miofascial. | Identificación de puntos críticos de sobrecarga. | Estiramientos asistidos para recuperar flexibilidad."
   },
   {
     "id": "PAQ-5a2f5fc0",
     "category": "Paquete",
     "title": "Cuerpo completo + una zona específica (Maratones)",
     "price": 850,
-    "includes": "1 sesión una semana antes del medio maratón , 1 sesión después de la carrera"
+    "includes": "1. Sesión Pre-Evento (Preparación):|Descarga muscular de cuerpo completo|Terapia manual profunda en piernas, espalda y brazos.|Uso de terapia de percusión y liberación miofascial|Identificación de puntos críticos de sobrecarga.|Descarga preventiva para evitar calambres y sobrecargas.|Enfoque en flexibilidad y liberación de fascia plantar.|2. Sesión Post-Evento (Recuperación):|Drenaje circulatorio para eliminar pesadez.|Recuperación acelerada de tejidos para volver pronto a la pista."
   },
   {
     "id": "PAQ-6ebcf4b9",
     "category": "Paquete",
     "title": "Descarga muscular de una zona (Maratones)",
     "price": 600,
-    "includes": "1 sesión previa a la carrera , 1 sesión posterior a la carrera"
+    "includes": "1. Sesión Pre-Evento (Preparación):|Descarga preventiva para evitar calambres y sobrecargas.|Enfoque en flexibilidad y liberación de fascia plantar.|2. Sesión Post-Evento (Recuperación):|Drenaje circulatorio para eliminar pesadez.|Recuperación acelerada de tejidos para volver pronto a la pista."
   }
 ]

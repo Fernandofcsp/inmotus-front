@@ -89,43 +89,53 @@ const services = allItems.filter((item) => !item.id.startsWith("PAQ-"));
               data-animate="up"
               data-delay={String(i * 100)}
             >
-              <div class="relative w-full h-full bg-white backdrop-blur-sm border border-slate-200 rounded-3xl p-6 sm:p-8 transition-all duration-300 hover:border-blue-900/50 shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-900/10 flex flex-col items-center text-center">
+              <div class="relative w-full h-full bg-white backdrop-blur-sm border border-slate-200 rounded-3xl p-6 sm:p-8 transition-all duration-300 hover:border-blue-900/50 shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-900/10 flex flex-col">
                 <div class="mb-4">
-                  <h3 class="text-2xl font-bold text-slate-900 leading-tight">
+                  <h3 class="text-2xl font-bold text-slate-900 leading-tight text-left">
                     {item.title}
                   </h3>
                 </div>
 
                 {item.includes && (
-                  <div class="mb-6 py-4 border-t border-slate-100 w-full flex flex-col items-center">
+                  <div class="mb-6 py-4 border-t border-slate-100 w-full flex flex-col items-start min-h-0 flex-1">
                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4">
                       Incluye:
                     </p>
-                    <ul class="space-y-3 w-full max-w-[280px]">
-                      {item.includes.split(",").map((text) => (
-                        <li class="flex items-start justify-center gap-2 text-slate-600 text-sm">
-                          <svg
-                            class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                          <span class="text-left">{text.trim()}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div class="w-full overflow-y-auto max-h-[160px] pr-2 custom-scrollbar">
+                      <ul class="space-y-3 w-full">
+                        {item.includes.split("|").map((text) => {
+                          const trimmed = text.trim();
+                          const isNumbered = /^\d+\./.test(trimmed);
+                          return (
+                            <li
+                              class={`flex items-start gap-2 text-slate-600 text-sm ${isNumbered ? "pl-6 font-medium text-slate-900" : ""}`}
+                            >
+                              {!isNumbered && (
+                                <svg
+                                  class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M5 13l4 4L19 7"
+                                  />
+                                </svg>
+                              )}
+                              <span class="text-left">{trimmed}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
                   </div>
                 )}
 
                 <div class="mt-auto pt-6 flex flex-col gap-4 w-full">
-                  <div class="text-center">
+                  <div class="text-left">
                     <span class="text-3xl font-bold bg-gradient-to-r from-blue-950 to-blue-900 bg-clip-text text-transparent">
                       ${item.price}
                     </span>
@@ -229,7 +239,7 @@ const services = allItems.filter((item) => !item.id.startsWith("PAQ-"));
                   data-animate="up"
                   data-delay={String(i * 100)}
                 >
-                  <div class="relative w-full h-full bg-white backdrop-blur-sm border border-slate-200 rounded-3xl p-6 sm:p-8 transition-all duration-300 hover:border-blue-900/50 shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-900/10 flex flex-col items-center text-center ring-2 ring-blue-900/5">
+                  <div class="relative w-full h-full bg-white backdrop-blur-sm border border-slate-200 rounded-3xl p-6 sm:p-8 transition-all duration-300 hover:border-blue-900/50 shadow-xl hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-900/10 flex flex-col items-start text-left ring-2 ring-blue-900/5">
                     <div class="mb-4">
                       <h3 class="text-2xl font-bold text-slate-900 leading-tight">
                         {item.title}
@@ -237,35 +247,45 @@ const services = allItems.filter((item) => !item.id.startsWith("PAQ-"));
                     </div>
 
                     {item.includes && (
-                      <div class="mb-6 py-4 border-t border-slate-100 w-full flex flex-col items-center">
+                      <div class="mb-6 py-4 border-t border-slate-100 w-full flex flex-col items-start min-h-0 flex-1">
                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4">
                           Este paquete incluye:
                         </p>
-                        <ul class="space-y-3 w-full max-w-[280px]">
-                          {item.includes.split(",").map((text) => (
-                            <li class="flex items-start justify-center gap-2 text-slate-600 text-sm">
-                              <svg
-                                class="w-4 h-4 text-blue-900 shrink-0 mt-0.5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M5 13l4 4L19 7"
-                                />
-                              </svg>
-                              <span class="text-left">{text.trim()}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        <div class="w-full overflow-y-auto max-h-[160px] pr-2 custom-scrollbar">
+                          <ul class="space-y-3 w-full">
+                            {item.includes.split("|").map((text) => {
+                              const trimmed = text.trim();
+                              const isNumbered = /^\d+\./.test(trimmed);
+                              return (
+                                <li
+                                  class={`flex items-start gap-2 text-slate-600 text-sm ${isNumbered ? "pl-6 font-medium text-slate-900" : ""}`}
+                                >
+                                  {!isNumbered && (
+                                    <svg
+                                      class="w-4 h-4 text-blue-900 shrink-0 mt-0.5"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M5 13l4 4L19 7"
+                                      />
+                                    </svg>
+                                  )}
+                                  <span class="text-left">{trimmed}</span>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
                       </div>
                     )}
 
                     <div class="mt-auto pt-6 flex flex-col gap-4 w-full">
-                      <div class="text-center">
+                      <div class="text-left">
                         <span class="text-3xl font-bold bg-gradient-to-r from-blue-950 to-blue-900 bg-clip-text text-transparent">
                           ${item.price}
                         </span>
@@ -275,7 +295,7 @@ const services = allItems.filter((item) => !item.id.startsWith("PAQ-"));
                       </div>
                       <a
                         href={`${import.meta.env.BASE_URL}citas?service=${encodeURIComponent(item.title)}`}
-                        class="block text-center w-full py-3.5 px-6 rounded-xl bg-slate-900 text-white font-bold transition-all duration-300 hover:bg-blue-900 shadow-lg shadow-blue-900/20 active:scale-95 text-sm"
+                        class="block text-center w-full py-3.5 px-6 rounded-xl bg-blue-900 text-white font-bold transition-all duration-300 hover:bg-slate-900 shadow-lg shadow-blue-900/20 active:scale-95 text-sm"
                       >
                         Agendar Paquete
                       </a>
@@ -428,5 +448,19 @@ const services = allItems.filter((item) => !item.id.startsWith("PAQ-"));
   }
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
   }
 </style>
