@@ -90,7 +90,7 @@ const hideClonesClass = originalCount <= 2 ? "sm:hidden lg:hidden" : originalCou
 
                             return (
                                 <div
-                                    class={`physio-card shrink-0 w-[82%] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1.333rem)] snap-center sm:snap-start relative flex items-stretch ${cloneClass}`}
+                                    class={`physio-card shrink-0 w-[80%] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1.333rem)] snap-center sm:snap-start relative flex items-stretch ${cloneClass}`}
                                     data-animate="up"
                                     data-delay={String((i % originalCount) * 150)}
                                 >
@@ -217,19 +217,38 @@ const hideClonesClass = originalCount <= 2 ? "sm:hidden lg:hidden" : originalCou
     }
     
     /* Custom scrollbar para contenido interno de tarjetas */
+    .custom-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e1 transparent;
+        /* Scroll shadows trick */
+        background:
+            linear-gradient(white 30%, rgba(255, 255, 255, 0)),
+            linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
+            radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0)),
+            radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0)) 0 100%;
+        background-repeat: no-repeat;
+        background-color: white;
+        background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+        background-attachment: local, local, scroll, scroll;
+    }
+
     .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
+        width: 4px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
         background: transparent;
-        margin-block: 8px;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
         background-color: #cbd5e1;
-        border-radius: 10px;
+        border-radius: 20px;
     }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background-color: #94a3b8;
+    @media (max-width: 640px) {
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 3px;
+        }
+        .custom-scrollbar {
+            background-size: 100% 30px, 100% 30px, 100% 10px, 100% 10px;
+        }
     }
 </style>
 

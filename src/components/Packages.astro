@@ -450,6 +450,35 @@ const services = allItems.filter((item) => !item.id.startsWith("PAQ-"));
     display: none;
   }
 
+  /* Custom scrollbar para contenido interno de tarjetas */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+    /* Scroll shadows trick */
+    background:
+      linear-gradient(white 30%, rgba(255, 255, 255, 0)),
+      linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
+      radial-gradient(
+        farthest-side at 50% 0,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0)
+      ),
+      radial-gradient(
+          farthest-side at 50% 100%,
+          rgba(0, 0, 0, 0.1),
+          rgba(0, 0, 0, 0)
+        )
+        0 100%;
+    background-repeat: no-repeat;
+    background-color: white;
+    background-size:
+      100% 40px,
+      100% 40px,
+      100% 14px,
+      100% 14px;
+    background-attachment: local, local, scroll, scroll;
+  }
+
   .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
   }
@@ -457,10 +486,20 @@ const services = allItems.filter((item) => !item.id.startsWith("PAQ-"));
     background: transparent;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #e2e8f0;
-    border-radius: 10px;
+    background-color: #cbd5e1;
+    border-radius: 20px;
   }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #cbd5e1;
+
+  @media (max-width: 640px) {
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 3px;
+    }
+    .custom-scrollbar {
+      background-size:
+        100% 30px,
+        100% 30px,
+        100% 10px,
+        100% 10px;
+    }
   }
 </style>
