@@ -4,6 +4,10 @@ import Header from "../components/Header.astro";
 import { fetchServices } from "../lib/sheets";
 
 const fetchedServices = await fetchServices();
+const services = fetchedServices.filter(
+  (s) => s.id.startsWith("SERV-") || s.id.startsWith("PROD-"),
+);
+const packages = fetchedServices.filter((s) => s.id.startsWith("PAQ-"));
 const whatsappNumber = "523318391094";
 ---
 
@@ -118,11 +122,26 @@ const whatsappNumber = "523318391094";
                 class="peer w-full h-[54px] px-3 sm:px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-900 focus:ring-4 focus:ring-blue-100 outline-none transition-all appearance-none bg-white text-base text-slate-800 box-border m-0"
               >
                 {
-                  fetchedServices.map((s) => (
-                    <option value={s.title}>
-                      {s.title} - ${s.price} MXN
-                    </option>
-                  ))
+                  services.length > 0 && (
+                    <optgroup label="Servicios">
+                      {services.map((s) => (
+                        <option value={s.title}>
+                          {s.title} - ${s.price} MXN
+                        </option>
+                      ))}
+                    </optgroup>
+                  )
+                }
+                {
+                  packages.length > 0 && (
+                    <optgroup label="Paquetes">
+                      {packages.map((s) => (
+                        <option value={s.title}>
+                          {s.title} - ${s.price} MXN
+                        </option>
+                      ))}
+                    </optgroup>
+                  )
                 }
                 {
                   fetchedServices.length === 0 && (
