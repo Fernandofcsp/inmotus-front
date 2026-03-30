@@ -185,21 +185,31 @@ export async function fetchPhysiotherapists(): Promise<Physiotherapist[]> {
     const rows: string[][] = json.values ?? [];
 
     const physios = rows
-      .map((row) => ({
-        id: row[0] ?? "",
-        name: row[1] ?? "",
-        mail: row[2] ?? "",
-        age: row[3] ?? "",
-        phone_number: row[4] ?? "",
-        gender: row[5] ?? "",
-        profile_photo: row[6] ?? "",
-        full_photo_url: row[7] ?? "",
-        instagram: row[8] ?? "",
-        facebook: row[9] ?? "",
-        experience: row[10] ?? "",
-        certifications: row[11] ?? "",
-        cedula: row[12] ?? "",
-      }))
+      .map((row) => {
+        const profile_photo = row[6] ?? "";
+        let full_photo_url = row[7] ?? "";
+
+        // Fix malformed URLs (e.g. from copy-pasting a nested URL in the Google Sheet)
+        if (full_photo_url.includes("fileName=https%3A%2F%2F") || (!full_photo_url && profile_photo)) {
+          full_photo_url = `https://www.appsheet.com/template/gettablefileurl?appName=b395c8f0-5e0f-4e23-b5e6-81eecb28e1f3&tableName=Physiotherapist&fileName=${encodeURIComponent(profile_photo)}`;
+        }
+
+        return {
+          id: row[0] ?? "",
+          name: row[1] ?? "",
+          mail: row[2] ?? "",
+          age: row[3] ?? "",
+          phone_number: row[4] ?? "",
+          gender: row[5] ?? "",
+          profile_photo,
+          full_photo_url,
+          instagram: row[8] ?? "",
+          facebook: row[9] ?? "",
+          experience: row[10] ?? "",
+          certifications: row[11] ?? "",
+          cedula: row[12] ?? "",
+        };
+      })
       .filter((p) => p.full_photo_url !== "" || p.profile_photo !== "");
 
     if (physios.length > 0) {
