@@ -194,10 +194,11 @@ const formatPhoneNumber = (num: string) => {
           <!-- Hero Image/Visual -->
           <div class="relative" data-animate="right" data-delay="200">
             <div
-              class="rounded-3xl bg-white/80 backdrop-blur-md border border-slate-200 p-4 sm:p-6 lg:p-8 shadow-2xl"
+              id="map-section"
+              class="flex flex-col rounded-3xl bg-white/80 backdrop-blur-md border border-slate-200 p-4 sm:p-6 lg:p-8 shadow-2xl transition-all duration-300"
             >
               <!-- Opciones del Mapa -->
-              <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center justify-between mb-3 shrink-0">
                 <div class="flex bg-white rounded-lg shadow-sm border border-slate-200 text-sm overflow-hidden">
                   <button id="btn-map" class="px-4 py-1.5 bg-blue-50 text-blue-700 font-medium transition-colors">
                     Mapa
@@ -217,7 +218,7 @@ const formatPhoneNumber = (num: string) => {
               <!-- Dynamic Map with Toggle -->
               <div
                 id="map-wrapper"
-                class="relative rounded-2xl overflow-hidden border border-slate-200 shadow-inner bg-slate-100 h-56 sm:h-72 lg:h-80 group bg-white"
+                class="relative rounded-2xl overflow-hidden border border-slate-200 shadow-inner bg-slate-100 h-56 sm:h-72 lg:h-80 group bg-white transition-all duration-300"
               >
                 <iframe
                   id="iframe-map"
@@ -248,6 +249,7 @@ const formatPhoneNumber = (num: string) => {
                 const iframeMap = document.getElementById('iframe-map');
                 const iframeSv = document.getElementById('iframe-sv');
                 const mapWrapper = document.getElementById('map-wrapper');
+                const mapSection = document.getElementById('map-section');
 
                 if (btnMap && btnSv && iframeMap && iframeSv) {
                   btnMap.addEventListener('click', () => {
@@ -271,26 +273,72 @@ const formatPhoneNumber = (num: string) => {
                   });
                 }
 
-                if (btnFullscreen && mapWrapper) {
+                if (btnFullscreen && mapSection && mapWrapper) {
+                  let isFakeFullscreen = false;
+                  
                   btnFullscreen.addEventListener('click', () => {
-                    if (!document.fullscreenElement) {
-                      if (mapWrapper.requestFullscreen) {
-                        mapWrapper.requestFullscreen();
-                      } else if ((mapWrapper as any).webkitRequestFullscreen) {
-                        (mapWrapper as any).webkitRequestFullscreen();
+                    isFakeFullscreen = !isFakeFullscreen;
+                    const animatedParent = mapSection.closest('[data-animate]');
+                    
+                    if (isFakeFullscreen) {
+                      // Entrar a pantalla completa (Inline CSS para evitar problemas de Tailwind JIT)
+                      if (animatedParent instanceof HTMLElement) {
+                        animatedParent.style.transform = 'none';
+                        animatedParent.style.transition = 'none';
+                        animatedParent.style.zIndex = '99999';
                       }
+                      
+                      mapSection.style.position = 'fixed';
+                      mapSection.style.top = '0';
+                      mapSection.style.left = '0';
+                      mapSection.style.width = '100vw';
+                      mapSection.style.height = '100dvh';
+                      mapSection.style.zIndex = '99999';
+                      mapSection.style.borderRadius = '0';
+                      mapSection.style.padding = '8px';
+                      
+                      const mapLocationInfo = document.getElementById('map-location-info');
+                      if (mapLocationInfo) mapLocationInfo.style.display = 'none';
+                      
+                      mapWrapper.classList.remove('h-56', 'sm:h-72', 'lg:h-80');
+                      mapWrapper.classList.add('flex-1');
+                      document.body.style.overflow = 'hidden';
+                      
+                      // Cambiar icono a "contraer"
+                      btnFullscreen.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 14h6m0 0v6m0-6l-7 7m17-11h-6m0 0V4m0 6l7-7M4 10h6m0 0V4m0 6l-7-7m17 11h-6m0 0v6m0-6l7 7"></path></svg>';
                     } else {
-                      if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                      } else if ((document as any).webkitExitFullscreen) {
-                        (document as any).webkitExitFullscreen();
+                      // Salir de pantalla completa
+                      if (animatedParent instanceof HTMLElement) {
+                        animatedParent.style.transform = '';
+                        animatedParent.style.transition = '';
+                        animatedParent.style.zIndex = '';
                       }
+                      
+                      mapSection.style.position = '';
+                      mapSection.style.top = '';
+                      mapSection.style.left = '';
+                      mapSection.style.width = '';
+                      mapSection.style.height = '';
+                      mapSection.style.zIndex = '';
+                      mapSection.style.borderRadius = '';
+                      mapSection.style.padding = '';
+                      
+                      const mapLocationInfo = document.getElementById('map-location-info');
+                      if (mapLocationInfo) mapLocationInfo.style.display = '';
+                      
+                      mapWrapper.classList.remove('flex-1');
+                      mapWrapper.classList.add('h-56', 'sm:h-72', 'lg:h-80');
+                      document.body.style.overflow = '';
+                      
+                      // Restaurar icono de "expandir"
+                      btnFullscreen.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>';
                     }
                   });
                 }
               </script>
               <div
-                class="mt-3 p-3 sm:p-4 bg-blue-50 border border-blue-100 rounded-xl flex items-start gap-3"
+                id="map-location-info"
+                class="mt-3 p-3 sm:p-4 bg-blue-50 border border-blue-100 rounded-xl flex items-start gap-3 transition-all duration-300"
               >
                 <svg
                   class="w-5 h-5 text-blue-900 shrink-0 mt-0.5"
