@@ -280,12 +280,19 @@ const formatPhoneNumber = (num: string) => {
                     isFakeFullscreen = !isFakeFullscreen;
                     const animatedParent = mapSection.closest('[data-animate]');
                     
+                    const parentSection = mapSection.closest('section');
+                    
                     if (isFakeFullscreen) {
                       // Entrar a pantalla completa (Inline CSS para evitar problemas de Tailwind JIT)
                       if (animatedParent instanceof HTMLElement) {
                         animatedParent.style.transform = 'none';
                         animatedParent.style.transition = 'none';
                         animatedParent.style.zIndex = '99999';
+                      }
+                      
+                      if (parentSection) {
+                        parentSection.style.overflow = 'visible';
+                        parentSection.style.zIndex = '99999';
                       }
                       
                       mapSection.style.position = 'fixed';
@@ -301,7 +308,8 @@ const formatPhoneNumber = (num: string) => {
                       if (mapLocationInfo) mapLocationInfo.style.display = 'none';
                       
                       mapWrapper.classList.remove('h-56', 'sm:h-72', 'lg:h-80');
-                      mapWrapper.classList.add('flex-1');
+                      mapWrapper.style.flex = '1 1 auto';
+                      mapWrapper.style.height = '100%';
                       document.body.style.overflow = 'hidden';
                       
                       // Cambiar icono a "contraer"
@@ -312,6 +320,11 @@ const formatPhoneNumber = (num: string) => {
                         animatedParent.style.transform = '';
                         animatedParent.style.transition = '';
                         animatedParent.style.zIndex = '';
+                      }
+                      
+                      if (parentSection) {
+                        parentSection.style.overflow = '';
+                        parentSection.style.zIndex = '';
                       }
                       
                       mapSection.style.position = '';
@@ -326,7 +339,8 @@ const formatPhoneNumber = (num: string) => {
                       const mapLocationInfo = document.getElementById('map-location-info');
                       if (mapLocationInfo) mapLocationInfo.style.display = '';
                       
-                      mapWrapper.classList.remove('flex-1');
+                      mapWrapper.style.flex = '';
+                      mapWrapper.style.height = '';
                       mapWrapper.classList.add('h-56', 'sm:h-72', 'lg:h-80');
                       document.body.style.overflow = '';
                       
