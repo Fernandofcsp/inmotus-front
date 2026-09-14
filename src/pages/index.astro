@@ -297,9 +297,11 @@ const formatPhoneNumber = (num: string) => {
                       
                       mapSection.style.position = 'fixed';
                       mapSection.style.top = '0';
+                      mapSection.style.bottom = '0';
                       mapSection.style.left = '0';
-                      mapSection.style.width = '100vw';
-                      mapSection.style.height = window.innerHeight + 'px'; // Fix iOS resize loop
+                      mapSection.style.right = '0';
+                      mapSection.style.width = 'auto';
+                      mapSection.style.height = 'auto';
                       mapSection.style.zIndex = '99999';
                       mapSection.style.borderRadius = '0';
                       mapSection.style.padding = '8px';
@@ -311,8 +313,6 @@ const formatPhoneNumber = (num: string) => {
                       mapWrapper.style.flex = '1 1 auto';
                       mapWrapper.style.height = '100%';
                       document.body.style.overflow = 'hidden';
-                      
-                      window.addEventListener('resize', updateMapHeight);
                       
                       // Cambiar icono a "contraer"
                       btnFullscreen.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 14h6m0 0v6m0-6l-7 7m17-11h-6m0 0V4m0 6l7-7M4 10h6m0 0V4m0 6l-7-7m17 11h-6m0 0v6m0-6l7 7"></path></svg>';
@@ -331,7 +331,9 @@ const formatPhoneNumber = (num: string) => {
                       
                       mapSection.style.position = '';
                       mapSection.style.top = '';
+                      mapSection.style.bottom = '';
                       mapSection.style.left = '';
+                      mapSection.style.right = '';
                       mapSection.style.width = '';
                       mapSection.style.height = '';
                       mapSection.style.zIndex = '';
@@ -346,18 +348,10 @@ const formatPhoneNumber = (num: string) => {
                       mapWrapper.classList.add('h-56', 'sm:h-72', 'lg:h-80');
                       document.body.style.overflow = '';
                       
-                      window.removeEventListener('resize', updateMapHeight);
-                      
                       // Restaurar icono de "expandir"
                       btnFullscreen.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>';
                     }
                   });
-                  
-                  function updateMapHeight() {
-                    if (isFakeFullscreen && mapSection) {
-                      mapSection.style.height = window.innerHeight + 'px';
-                    }
-                  }
                 }
               </script>
               <div
