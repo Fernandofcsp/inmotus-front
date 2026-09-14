@@ -8,7 +8,7 @@ const services = fetchedServices.filter(
   (s) => s.id.startsWith("SERV-") || s.id.startsWith("PROD-"),
 );
 const packages = fetchedServices.filter((s) => s.id.startsWith("PAQ-"));
-const whatsappNumber = "523318391094";
+const whatsappNumber = "5213318391094";
 ---
 
 <Layout
@@ -32,7 +32,7 @@ const whatsappNumber = "523318391094";
       >
       </div>
     </div>
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="text-center mb-10">
         <h1
           class="text-4xl font-extrabold text-slate-900 tracking-tight sm:text-5xl mb-4"
@@ -45,15 +45,73 @@ const whatsappNumber = "523318391094";
         </p>
       </div>
 
-      <div class="max-w-2xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        
+        <!-- Columna Lateral (Arriba en móvil, derecha en PC) -->
+        <div class="lg:col-span-5 xl:col-span-4 lg:order-last flex flex-col gap-6 h-full">
+          
+          <!-- Alternativa de WhatsApp -->
+          <div class="flex-1 bg-green-50/90 backdrop-blur-sm border border-green-200 p-6 sm:p-8 rounded-2xl shadow-lg flex flex-col justify-center gap-5 transition-transform hover:-translate-y-1">
+            <div class="flex items-center gap-4 text-left">
+              <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-md text-white">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-green-950 font-bold text-lg leading-tight">¿Atención personalizada?</h3>
+              </div>
+            </div>
+            <p class="text-green-800 text-sm">Si prefieres verificar disponibilidad con un especialista, consúltalo por WhatsApp.</p>
+            <a
+              href={`https://wa.me/${whatsappNumber}?text=Hola,%20me%20gustar%C3%ADa%20consultar%20disponibilidad%20para%20una%20cita.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-6 py-3 text-center bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all w-full mt-auto"
+            >
+              Ir a WhatsApp
+            </a>
+          </div>
+
+          <!-- Horario informativo (movido a la derecha) -->
+          <div class="flex-1 bg-blue-50/90 backdrop-blur-sm border border-blue-200 p-6 sm:p-8 rounded-2xl shadow-lg flex flex-col justify-center gap-4">
+            <div class="flex gap-4 text-blue-800 h-full">
+              <svg class="w-7 h-7 text-blue-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div class="flex flex-col justify-center">
+                <h3 class="font-bold text-lg leading-tight text-blue-950 mb-4">Horario de atención</h3>
+                <div class="space-y-3 text-sm">
+                  <p>
+                    <span class="block font-semibold text-blue-900">Lunes – Viernes:</span>
+                    9:00 a.m – 2:00 p.m y 3:00 p.m – 8:00 p.m <br>
+                    <span class="text-xs opacity-75">(última cita 7:00 p.m)</span>
+                  </p>
+                  <p>
+                    <span class="block font-semibold text-blue-900">Sábado:</span>
+                    9:00 a.m – 2:00 p.m <br>
+                    <span class="text-xs opacity-75">(última cita 1:00 p.m)</span>
+                  </p>
+                  <p>
+                    <span class="block font-semibold text-blue-900">Domingo:</span>
+                    Cerrado
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Formulario Principal -->
         <div
-          class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-200"
+          class="lg:col-span-7 xl:col-span-8 lg:order-first bg-white p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-200 h-full flex flex-col"
         >
           <h2 class="text-2xl font-bold text-slate-800 mb-6">
             Detalles de tu Cita
           </h2>
-
-          <form id="booking-form" class="space-y-5">
+          
+          <form id="booking-form" class="space-y-5 flex-1 flex flex-col">
             <!-- Nombre del Paciente -->
             <div class="relative group">
               <input
@@ -176,36 +234,7 @@ const whatsappNumber = "523318391094";
               </div>
             </div>
 
-            <!-- Horario informativo -->
-            <div
-              class="rounded-xl bg-blue-50 border border-blue-100 p-4 flex gap-3"
-            >
-              <svg
-                class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <div class="text-sm text-blue-800">
-                <p class="font-semibold mb-1">Horario de atención</p>
-                <p>
-                  Lunes – Viernes: <span class="font-medium"
-                    >9:00 a.m – 2:00 p.m y 3:00 p.m – 8:00 p.m</span
-                  > (última cita 7:00 p.m)
-                </p>
-                <p>
-                  Sábado: <span class="font-medium">9:00 a.m – 2:00 p.m</span> (última
-                  cita 1:00 p.m)
-                </p>
-                <p>Domingo: <span class="font-medium">Cerrado</span></p>
-              </div>
-            </div>
+
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div class="relative group min-w-0">
@@ -265,7 +294,7 @@ const whatsappNumber = "523318391094";
               </div>
             </div>
 
-            <div class="pt-6">
+            <div class="pt-6 mt-auto">
               <button
                 type="submit"
                 id="submit-btn"
@@ -284,10 +313,11 @@ const whatsappNumber = "523318391094";
               ¡Solicitud enviada correctamente!
             </p>
             <p class="text-green-600">
-              Nos pondremos en contacto contigo muy pronto.
+              Nos pondremos en contacto contigo muy pronto para confirmar disponibilidad de tu cita.
             </p>
           </div>
         </div>
+
       </div>
     </div>
   </main>
@@ -310,9 +340,8 @@ const whatsappNumber = "523318391094";
   // Horas base según día
   function getHours(dayOfWeek) {
     if (dayOfWeek === 0) return [];
-    if (dayOfWeek === 6) return [9, 10, 11, 12, 13];
-    // Lun-Vie (sin 14:00 por horario de comida)
-    return [9, 10, 11, 12, 13, 15, 16, 17, 18, 19];
+    // Lunes a Sábado: 11 am a 5 pm
+    return [11, 12, 13, 14, 15, 16, 17];
   }
 
   function formatHour(h) {
@@ -357,7 +386,7 @@ const whatsappNumber = "523318391094";
     }
   }
 
-  function renderHours(hours, blockedSet) {
+  function renderHours(hours, blockedSet, isToday, currentHour) {
     timeSelect.innerHTML = "";
     const placeholder = document.createElement("option");
     placeholder.value = "";
@@ -366,6 +395,8 @@ const whatsappNumber = "523318391094";
 
     for (const h of hours) {
       if (blockedSet && blockedSet.has(h)) continue; // ocupada → omitir
+      if (isToday && h <= currentHour) continue; // hora ya pasó → omitir
+      
       const opt = document.createElement("option");
       opt.value = `${String(h).padStart(2, "0")}:00`;
       opt.textContent = formatHour(h);
@@ -409,7 +440,13 @@ const whatsappNumber = "523318391094";
 
     const blocked = await fetchBlockedHours(val); // null = webhook sin respuesta
     timeSelect.disabled = false;
-    renderHours(hours, blocked); // si blocked es null, muestra todos los slots
+    
+    // Verificar si es el día actual para bloquear horas pasadas
+    const now = new Date();
+    const isToday = y === now.getFullYear() && (m - 1) === now.getMonth() && d === now.getDate();
+    const currentHour = now.getHours();
+
+    renderHours(hours, blocked, isToday, currentHour); // si blocked es null, muestra todos los slots
   }
 
   // Bloquear fechas pasadas
@@ -448,8 +485,7 @@ const whatsappNumber = "523318391094";
     const hr = dt.getHours();
 
     let isAllowed = false;
-    if (day >= 1 && day <= 5) isAllowed = hr >= 9 && hr <= 19;
-    else if (day === 6) isAllowed = hr >= 9 && hr <= 13;
+    if (day >= 1 && day <= 6) isAllowed = hr >= 11 && hr <= 17;
 
     if (!isAllowed) {
       alert(

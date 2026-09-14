@@ -2,12 +2,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import https from "node:https";
+import CoverflowCarousel from "./CoverflowCarousel";
 
 const apiKey = import.meta.env.GOOGLE_PLACES_API_KEY;
 const placeId = import.meta.env.GOOGLE_PLACE_ID;
 const galleryDir = path.join(process.cwd(), "public", "gallery");
 
-// Ensure directory exists and clear it to ensure fresh duplicates-free content
+// Ensure directory exists and clear it to ensure fresh content
 if (!fs.existsSync(galleryDir)) {
     try {
         fs.mkdirSync(galleryDir, { recursive: true });
@@ -34,7 +35,6 @@ if (apiKey && placeId) {
         const data = await res.json();
 
         if (data.result?.photos) {
-            // Filter duplicates by reference AND shared dimensions (common in Google Places)
             const seenRefs = new Set();
             const seenDims = new Set();
             const uniquePhotos = data.result.photos.filter((p: any) => {
@@ -46,7 +46,7 @@ if (apiKey && placeId) {
                 return true;
             });
 
-            const photos = uniquePhotos.slice(0, 8); // Limit to 8 for a nice grid
+            const photos = uniquePhotos.slice(0, 10);
 
             for (let i = 0; i < photos.length; i++) {
                 const ref = photos[i].photo_reference;
@@ -54,32 +54,22 @@ if (apiKey && placeId) {
                 const localPath = path.join(galleryDir, fileName);
                 const publicPath = `${import.meta.env.BASE_URL}gallery/${fileName}`;
 
-                // Download
                 const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1200&photoreference=${ref}&key=${apiKey}`;
 
                 await new Promise((resolve, reject) => {
                     const file = fs.createWriteStream(localPath);
                     https
                         .get(photoUrl, (response) => {
-                            if (
-                                response.statusCode === 302 &&
-                                response.headers.location
-                            ) {
+                            if (response.statusCode === 302 && response.headers.location) {
                                 https
                                     .get(response.headers.location, (res2) => {
                                         res2.pipe(file);
-                                        file.on("finish", () => {
-                                            file.close();
-                                            resolve(true);
-                                        });
+                                        file.on("finish", () => { file.close(); resolve(true); });
                                     })
                                     .on("error", reject);
                             } else {
                                 response.pipe(file);
-                                file.on("finish", () => {
-                                    file.close();
-                                    resolve(true);
-                                });
+                                file.on("finish", () => { file.close(); resolve(true); });
                             }
                         })
                         .on("error", (err) => {
@@ -95,17 +85,15 @@ if (apiKey && placeId) {
     }
 }
 
-// Fallback if no photos found
-if (photoPaths.length === 0) {
-    photoPaths = [];
-}
+// Convert string[] → { src: string }[] for CoverflowCarousel
+const carouselSlides = photoPaths.map((src, i) => ({ src, alt: `Instalación InMotus ${i + 1}` }));
 ---
 
 {
-    photoPaths.length > 0 && (
+    carouselSlides.length > 0 && (
         <section class="py-16 sm:py-24 bg-white overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12" data-animate="up">
+                <div class="text-center mb-4" data-animate="up">
                     <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
                         Nuestras{" "}
                         <span class="bg-gradient-to-r from-blue-900 to-blue-600 bg-clip-text text-transparent">
@@ -118,44 +106,23 @@ if (photoPaths.length === 0) {
                     </p>
                 </div>
 
-                <div
-                    class="grid grid-cols-2 md:grid-cols-4 gap-4"
-                    id="gallery-grid"
-                >
-                    {photoPaths.map((path, i) => (
-                        <div
-                            class={`relative overflow-hidden rounded-2xl aspect-square group cursor-pointer shadow-md hover:shadow-xl transition-all duration-500 ${i === 0 ? "md:col-span-2 md:row-span-2" : ""}`}
-                            data-animate="up"
-                            data-delay={String(i * 100)}
-                        >
-                            <img
-                                src={path}
-                                alt={`Instalación de InMotus ${i + 1}`}
-                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                loading="lazy"
-                            />
-                            <div class="absolute inset-0 bg-blue-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                                <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform duration-500">
-                                    <svg
-                                        class="w-6 h-6"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
-                                        />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                <CoverflowCarousel
+                    client:load
+                    slides={carouselSlides}
+                    cardWidth="clamp(200px, 28vw, 340px)"
+                    rotate={44}
+                    depth={0.6}
+                    lens={3}
+                    falloff={0.56}
+                    fade={0.1}
+                    gap={0.05}
+                    radius={20}
+                    loop={true}
+                    showNavigation={true}
+                    showPagination={true}
+                />
 
-                <div class="mt-12 text-center">
+                <div class="mt-4 text-center">
                     <a
                         href="https://www.google.com/maps/place/InMotus/@20.635229,-103.382239,17z/data=!4m7!3m6!1s0x8428ad02770a943d:0x302eabe44ca182b2!8m2!3d20.635229!4d-103.382239!10e5!16s%2Fg%2F11z0vcbhyw?hl=es-MX&entry=ttu"
                         target="_blank"
@@ -163,18 +130,8 @@ if (photoPaths.length === 0) {
                         class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold transition-all hover:scale-105"
                     >
                         Ver más fotos en Google Maps
-                        <svg
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                            />
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
                     </a>
                 </div>
@@ -182,7 +139,3 @@ if (photoPaths.length === 0) {
         </section>
     )
 }
-
-<style>
-    /* Add any custom animations or layouts here */
-</style>

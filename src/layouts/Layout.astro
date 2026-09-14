@@ -270,11 +270,8 @@ const structuredData = {
           class="mt-10 pt-8 border-t border-slate-200 text-center text-slate-500"
         >
           <p class="text-sm">
-            &copy; 2026 INMOTUS. Todos los derechos reservados.
+            &copy; <span id="current-year">2024</span> INMOTUS. Todos los derechos reservados.
           </p>
-          {
-            /* Espacio para Permiso COFEPRIS / Aviso de Publicidad (Se agregará al recibir el número oficial) */
-          }
           <p
             class="text-[10px] mt-2 text-slate-400 font-medium uppercase tracking-[0.1em]"
           >
@@ -368,4 +365,10 @@ const structuredData = {
   document
     .querySelectorAll("[data-animate]")
     .forEach((el) => observer.observe(el));
+
+  // ─── Set dynamic copyright year ───
+  const yearEl = document.getElementById("current-year");
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear().toString();
+  }
 </script>
