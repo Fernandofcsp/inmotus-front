@@ -256,8 +256,6 @@ const formatPhoneNumber = (num: string) => {
                     iframeSv.style.opacity = '0';
                     iframeSv.style.pointerEvents = 'none';
                     
-                    if (btnFullscreen) btnFullscreen.style.display = 'block';
-                    
                     btnMap.className = 'px-4 py-1.5 bg-blue-50 text-blue-700 font-medium transition-colors';
                     btnSv.className = 'px-4 py-1.5 text-slate-600 hover:bg-slate-50 font-medium border-l border-slate-200 transition-colors';
                   });
@@ -267,8 +265,6 @@ const formatPhoneNumber = (num: string) => {
                     iframeSv.style.pointerEvents = 'auto';
                     iframeMap.style.opacity = '0';
                     iframeMap.style.pointerEvents = 'none';
-                    
-                    if (btnFullscreen) btnFullscreen.style.display = 'none';
                     
                     btnSv.className = 'px-4 py-1.5 bg-blue-50 text-blue-700 font-medium border-l border-slate-200 transition-colors';
                     btnMap.className = 'px-4 py-1.5 text-slate-600 hover:bg-slate-50 font-medium transition-colors';
